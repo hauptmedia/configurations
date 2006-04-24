@@ -1,9 +1,5 @@
 #!/usr/bin/env make
 
-UPSTREAM_ARCHIVE := dreamind@dreamind.de--2006-dreamind.de
-UPSTREAM_VERSION := configurations--mainline--0.1
-UPSTREAM := $(UPSTREAM_ARCHIVE)/$(UPSTREAM_VERSION)
-
 FILES := $(shell find . -mindepth 1 -maxdepth 1 \
 		! -name .git \
 		! -name .gitignore \
@@ -27,18 +23,6 @@ startup: help
 
 help: FORCE
 	@cat $(PWD)/_internal_/USAGE
-
-check-missing: FORCE
-	@echo Checking for missing patches...
-	$(Q)$(PWD)/_internal_/check-missing.sh $(UPSTREAM)
-
-replay: FORCE
-	@echo Starting replay from mainline...
-	$(Q)tla replay $(UPSTREAM)
-
-star-merge: FORCE
-	@echo Starting replay from mainline...
-	$(Q)tla star-merge $(UPSTREAM)
 
 # bin install target
 $(HOME)/bin: $(PWD)/bin
