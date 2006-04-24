@@ -1,0 +1,5 @@
+#
+# Small example on how to GPG sign tla/baz archives.
+# put this file in ~/.arch-params/signing/=default
+#
+gawk -f ~/bin/tla-gpg-check.awk gpg_command="gpg --verify-files -"

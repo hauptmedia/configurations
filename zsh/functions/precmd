@@ -1,0 +1,13 @@
+#!/bin/zsh
+# Setup a nicer terminal title
+function precmd () {
+	case $TERM in
+		xterm*|Eterm|rxvt)
+			echo -ne "\033]0;${USER}@${HOST}";\
+			echo -ne ' :: '${PWD}' :: ['$(uname -r)']\007'
+			;;
+		*)
+			;;
+	esac
+}
+

@@ -1,0 +1,107 @@
+#compdef hdiutil
+
+local expl state line opt_args verbs
+typeset -A opt_args
+
+verbs=( 'help:display minimal usage information for each verb.'
+       	'mount:attach a disk image to the system as a device.' \
+       	'attach:attach a disk image to the system as a device.' \
+	'detach:detach a disk image and terminate any associated hdid process.' \
+	'eject:detach a disk image and terminate any associated hdid process.' \
+	'verify:compute and verify the checksum of a read-only image.' \
+	'create:create a new image of the given size.' \
+	'compact:scans the bands of a SPARSE image and frees unused space.' \
+	'convert:convert image to type format and write the result to outfile.' \
+	'burn:burn image to optical media in an attached burning device.' \
+	'info:display information about DiskImages.framework' \
+	'load:manually load the disk image driver.' \
+	'checksum:calculate the specified checksum on the image data.' \
+	'chpass:change the passphrase for an encrypted image.' \
+	'unflatten:unflatten a read-only (or compressed) UDIF disk image.' \
+	'flatten:flatten a read-only (or compressed) UDIF disk image.' \
+	'imageinfo:Print out information about a disk image.' \
+	'internet-enable:Enable or disable post-processing for the image.' \
+	'makehybrid:Generate a disk image image.' \
+	'mountvol:attempt to mount dev_name using Disk Arbitration.' \
+	'hfsanalyze:print information about an HFS/HFS+ volume.' \
+	'unmount:unmounts a mounted volume.' \
+	'plugins:print information about DiskImages framework plugins.' \
+	'resize:attempt to resize the partition to the end of the image file' \
+	'segment:segment a NDIF or UDIF disk image.' \
+	'pmap:display the partition map of an image or device.')
+
+_arguments \
+	'1:verb:->verb' \
+	'*::verb options:->options' \
+	&& return 0
+if [[ $state = verb ]]; then
+	_describe 'verb' verbs && return 0
+fi
+
+if [[ $state = options ]]; then
+	case $line[1] in
+		eject | detach)
+			local devices devices_line i mountpoint
+			devices=(`df|grep '^/'|awk '{print $1}'|xargs`)
+			for (( i = 1 ; i <= $#devices ; i++ )); do
+				tempval=`df $devices[$i]|grep '^/'|awk -F% '{print $2}'`
+				devices_line="$devices_line$devices[$i]:${tempval// /\\ } "
+			done
+			_arguments '-help[provide full usage information for a verb]' \
+				'-force[umounts and detaches the image regardless of any open files]' \
+				':device:(('$devices_line'))'
+			;;
+		attach)
+			_arguments '-help[provide full usage information for a verb]' \
+				'-encryption[specify a particular type of encryption]' \
+				'-stdinpass[read a null-terminated passphrase from standard in]' \
+				'-recover[specify a keychain containing a certificate to unlock the image]:keychain file:_files' \
+				'-imagekey[specify a key/value pair for the disk image recognition]' \
+				'-shadow[Use a shadow file in conjunction with the data in the image.]' \
+				'-plist[display output in plist format]' \
+				'-insecurehttp[ignore ssl host validation failure]' \
+				'-readonly[force the resulting device to be read-only]' \
+				'-readwrite[force the resulting device to be read-write]' \
+				'-nokernel[attach with a helper process]' \
+				'-kernel[attempt to attach this image without a helper process]' \
+				'-notremovable[prevent this image from being detached]' \
+				'-mount[indicate wether the filesystems should be mounted or not]:-mount option:((required\:require\ the\ filesystem\ to\ be\ mounted optional\:mounting\ is\ optional suppressed\:completely\ suppress\ the\ mount))' \
+				'-nomount[identical to -mount suppressed, do not mount the filesystem]' \
+				'-mountroot[mount volumes in another directory instead of /Volumes]:mount directories:_directories' \
+				'-mountpoint[assuming only one volume, mount it at another directory instead of /Volumes]:mount directories:_directories' \
+				'-union[perform a union mount]' \
+				'-private[suppress mount notifications to the rest of the system]' \
+				'-nobrowse[mark the volumes non-browsable in applications such as the finder]' \
+				'-owners[enable or disable owners for HFS+ volumes]:enable owners:((on\:enable\ HFS+\ owners off\:disable\ HFS+\ owners))' \
+				'-drivekey[specify a key/value pair to be attached to the device]' \
+				'-verify[do not suppress verification of the image]' \
+				'-noverify[do suppress verification of the image]' \
+				'-ignorebadchecksums[ignore bad checksums]' \
+				'-noignorebadchecksums[do not ignore bad checksums]' \
+				'-idme[perform IDME actions on IDME images]' \
+				'-noidme[do not perform IDME actions on IDME images]' \
+				'-idmereveal[reveal (in the Finder) the results of IDME processing]' \
+				'-noidmereveal[do not reveal (in the Finder) the results of IDME processing]' \
+				'-idmetrash[put IDME images in the trash after processing]' \
+				'-noidmetrash[do not put IDME images in the trash after processing]' \
+				'-autoopen[auto-open volumes (in the Finder) after attaching an image]' \
+				'-noautoopen[do not auto-open volumes (in the Finder) after attaching an image]' \
+				'-autoopenro[auto-open read-only volumes]' \
+				'-noautoopenro[do not auto-open read-only volumes]' \
+				'-autoopenrw[auto-open read/write volumes]' \
+				'-noautoopenrw[do not auto-open read/write volumes]' \
+				':image files:_files -g "(#i)*.(dmg|iso|sparseimage|image)"'
+			;;
+		verify)
+			_arguments '-help[provide full usage information for a verb]' \
+				'-encryption[specify a particular type of encryption]' \
+				'-stdinpass[read a null-terminated passphrase from standard in]' \
+				'-plist[display output in plist format]' \
+				'-srcimagekey[specify a key/value pair for the disk image recognition]' \
+				':image files:_files -g "(#i)*.(dmg|iso|sparseimage|image)"'
+			;;
+	esac
+fi
+#
+
+# vim:set ft=zsh

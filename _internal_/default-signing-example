@@ -1,0 +1,5 @@
+#
+# Small example on how to check the GPG signature of tla/baz archives
+# put this file in ~/.arch-params/signing/=default.check
+#
+gpg --clearsign

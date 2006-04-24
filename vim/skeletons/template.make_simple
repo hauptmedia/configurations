@@ -1,0 +1,17 @@
+CXX := g++
+CXXFLAGS := -Wall -pedantic -O3 `pkg-config --cflags gtkmm-2.4`
+LDFLAGS := `pkg-config --libs gtkmm-2.4`
+
+PROG := main
+OBJS := main.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $^
+
+clean:
+	rm -rf $(PROG) $(OBJS)
+
+.PHONY: all clean
+

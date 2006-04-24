@@ -1,0 +1,127 @@
+#compdef fink
+
+_fink () {
+    local expl state line opt_args ret=1
+    typeset -A opt_args
+    
+    local exargs="-h --help -V --version"
+    _arguments \
+	"(* $exargs)"{-h,--help}'[display help text]' \
+	"(* $exargs)"{-V,--version}'[display version information]' \
+	"(-q --quiet -v --verbose $exargs)"{-q,--quiet}'[causes fink to be less verbose, opposite of --verbose]' \
+	"(-q --quiet -v --verbose $exargs)"{-v,--verbose}'[causes fink to be more verbose, opposite of --quiet]' \
+	"(-y --yes $exargs)"{-y,--yes}'[assume default answer for all interactive questions]' \
+	"(- $exargs)"':command:->command' \
+	'*::args:->args' \
+	&& return 0
+    
+    if [[ $state = command ]]; then
+	local commands
+	commands=( \
+	    "install" "update" "enable" "activate" "use" "remove" "purge" "update" \
+	    "selfupdate" "update-all" "configure" "list" "apropos" "describe" \
+	    "index" "fetch" "fetch-all" "fetch-missing" "build" "rebuild" "reinstall" \
+	    "configure" "validate" "check" "scanpackages" "checksums" "cleanup")
+	_wanted command expl 'command' compadd "$@" $commands
+    fi
+
+    if [[ $state = 'args' ]]; then
+	local str_line="$line"
+	local compl_is_incompl=$(if [[ $str_line[-1] = ' ' ]]; then echo 0; else echo 1; fi)
+
+	local not_opt; not_opt=(${line:/-*/})
+
+	local found_cmd=0
+	local cmd_args; cmd_args=(); for arg in $line; do
+	    if [[ $found_cmd = 1 ]]; then
+		cmd_args+=($arg)
+	    else
+		if [[ $arg = $not_opt[0] ]]; then
+		    found_cmd=1
+		fi
+	    fi
+	done
+	
+	if [[ $compl_is_incompl == 1 ]]; then
+	    cmd_args=$cmd_args[0,-2]
+	fi
+
+	case $not_opt[0] in
+	    install | update | enable | activate | use)
+		_fink_pkglist
+		_describe 'package' fink_pkglist -- && return 0
+		;;
+	    list)
+		local exargs="-h --help"
+		local modes="-i --installed -o --outdated -n --notinstalled -o --outdated -u --uptodate -n --notinstalled -s --section -m --maintainer -t --tree"
+		_arguments \
+		    "(* $exargs)"{-h,--help}'[Show the options which are available]' \
+		    "(-t --tab $exargs)"{-t,--tab}'[Output the list in a tab delimited format]' \
+		    "(-w --width $exargs)"{-w=,--width=}'[Sets the width of the display you would like the output formatted for]' \
+		    "($modes $exargs)"{-i,--installed}'[Show only those packages which are currently installed]' \
+		    "($modes $exargs)"{-o,--outdated}'[Show only those packages which are out of date]' \
+		    "($modes $exargs)"{-n,--notinstalled}'[Show packages which are not currently installed]' \
+		    "($modes $exargs)"{-u,--uptodate}'[Show only packages which are up to date]' \
+		    "($modes $exargs)"{-s=,--section=}'[Show only packages in the sections matching the regex]' \
+		    "($modes $exargs)"{-m=,--maintainer=}'[Show only packages with the maintainer matching the regex]' \
+		    "($modes $exargs)"{-t=,--tree=}'[Show only packages in the trees matching the regex]' \
+		    && return 0
+		;;
+	    fetch-missing)
+		if [[ $#cmd_args = 0 ]]; then
+		    _arguments \
+			{-i,--ignore-restrictive}'[Do not fetch packages that are "License: Restrictive"]' \
+			&& return 0
+		fi
+		;;
+	esac
+    fi
+    
+    return ret
+}
+
+_fink_pkglist () {
+    zstyle ":completion:${curcontext}:" cache-policy _fink_pkglist_cache_policy
+    zstyle ":completion:${curcontext}:" cache-path "$HOME/.zcompcache"
+    if [[ ${+fink_pkglist} -eq 1 ]]; then
+	return
+    fi
+    if ( _cache_invalid "fink_pkglist" && ! _retrieve_cache "fink_pkglist" ); then
+	fink_pkglist=()
+	fink list --tab | egrep -v '^Information about' | \
+	    awk 'BEGIN{FS="\t"}; {print $2":["$1"]["$3"]"$4}' | while read line; do
+	    fink_pkglist+=($line)
+	done
+	_store_cache "fink_pkglist" fink_pkglist
+    else
+	_retrieve_cache "fink_pkglist"
+    fi
+}
+
+_fink_lastmod () {
+    local lastmod=$(perl -e 'print ((stat "$ARGV[0]")[9])' $1)
+    if [[ -z "$lastmod" ]]; then
+	lastmod=0
+    fi
+    echo $lastmod
+    return 0
+}
+
+_fink_pkglist_cache_policy () {
+    local lastmod_cache=$(_fink_lastmod $1)
+    local lastmod_db=$(_fink_lastmod /sw/var/db/fink.db)
+    local lastmod_status=$(_fink_lastmod /sw/var/lib/dpkg/status)
+    
+    local db_newer;
+    db_newer=$lastmod_db
+
+    if [[ $lastmod_cache < $db_newer ]]; then
+	return 0
+    else
+	return 1
+    fi
+}
+
+_fink "$@"
+
+# vim:set ft=zsh

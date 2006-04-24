@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+#load the local funtions
+fpath=($fpath "$HOME/.zsh/functions")                                                               
+
+autoload ~/.zsh/functions/*(-.:t)

@@ -1,0 +1,41 @@
+#!/usr/bin/env zsh
+
+# small shellscript to cd into your tla tree and update it.
+# it will run make check-missing after.
+
+if [ "$1" = "--help" ]; then
+	echo "update-configurations 0.1"
+	echo
+	echo "small shellscript to update your configurations tla tree."
+	echo
+	exit 0
+fi
+
+if [ ! -e ~/bin ]; then
+	echo "ERROR: you do not have a ~/bin symlink!" >&2
+	exit 1
+fi
+
+readlink=$(which readlink)
+
+if [ -z "$readlink" ]; then
+	echo "ERROR: Your System is missing the readlink command" >&2
+	exit 2
+fi
+
+arch_tree=$(readlink ~/bin)
+
+if [ -z "$arch_tree" ]; then
+	echo "ERROR: ~/bin is not a symlink!" >&2
+	exit 3
+fi
+
+cd $arch_tree/..
+echo "Updating..."
+tla update
+echo "update done."
+echo
+make check-missing
+exit 0
+
+

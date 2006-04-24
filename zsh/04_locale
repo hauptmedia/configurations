@@ -1,0 +1,6 @@
+#!/bin/zsh
+if [ "$(uname -s)" = "Linux" ]; then
+	export LANG=de_DE@euro
+	export LC_CTYPE=de_DE@euro
+	export LC_ALL=de_DE@euro
+fi

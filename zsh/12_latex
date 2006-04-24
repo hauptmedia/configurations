@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+# specify the local LaTeX path here...
+localLaTeX=~/.LaTeX
+
+if [ -e $localLaTeX ]; then
+	# add the local latex path to TEXINPUTS
+	typeset -T TEXINPUTS texinputs
+	texinputs=(. $texinputs $localLaTeX)
+fi
+
+# remove the variable again
+unset localLaTeX
+

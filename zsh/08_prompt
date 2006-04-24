@@ -1,0 +1,7 @@
+#!/bin/zsh
+if [ $UID -eq 0 ];then
+	export PROMPT="%{${fg[red]}%}%n%{${fg[default]}%}@%{${fg[red]}%}%m%{${fg[default]}%}:%{${fg[cyan]}%}%~%{${fg[default]}%}%# "
+else
+	export PROMPT="%{${fg[green]}%}%n%{${fg[default]}%}@%{${fg[green]}%}%m%{${fg[default]}%}:%{${fg[cyan]}%}%~%{${fg[default]}%}%# "
+	
+fi

@@ -1,0 +1,11 @@
+# Dies ist die Konfiguration für build_kernel.
+# Bitte passen Sie ihren Wünschen entsprechend an.
+#
+# KERNEL_BASE="$HOME/kernel"
+# KERNEL_MODULES="$KERNEL_BASE/modules"
+# KERNEL_CONFIGS="$KERNEL_BASE/configs"
+# KERNEL_MAINTAINER="Stefan Pfetzing <dreamind@dreamind.de>"
+# NUM_CPUS=$(grep "^processor" /proc/cpuinfo | wc -l)
+# MODULE_LOC=../modules
+
+# vim:set ft=zsh:

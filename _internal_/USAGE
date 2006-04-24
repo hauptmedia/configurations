@@ -1,0 +1,16 @@
+			CONFIGURATIONS
+			/============/
+
+Welcome to configurations. This is a small script which uses
+tla to make it easy to manage your configurations in your home.
+
+You will now be asked if a file or a directory already exists
+in your home. Symlinks will sliently be DELETED.
+
+If you choose to overwrite the file/directory which is already
+in your home, then a backup will be written to ~/OLD.
+
+The directory ~/OLD will be created if its non-existent.
+
+Probably you can delete ~/OLD, if you don't need the files later on.
+

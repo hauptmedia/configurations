@@ -1,0 +1,190 @@
+#!/bin/zsh
+
+function build_kernel() {
+
+	local KERNEL_BASE KERNEL_MODULES_KERNEL_CONFIGS KERNEL_MAINTAINER NUM_CPUS MODULE_LOC
+	local KERNEL_CONFIG=""
+
+	if [ ! -r ~/.build_kernel ]; then
+		echo "Konnte die Konfiguration ~/.build_kernel nicht lesen."
+		return
+	fi
+
+	source ~/.build_kernel
+	
+	if ! [ "$KERNEL_BASE" -a "$KERNEL_MODULES" -a "$KERNEL_CONFIGS" -a \
+		"$KERNEL_MAINTAINER" -a "$NUM_CPUS" -a "$MODULE_LOC" ]; then
+		echo "Achtung, build_kernel ist nicht richtig konfiguriert."
+		echo "Bitte passen Sie ~/.build_kernel ihren Wünschen entsprechend an."
+		return
+	fi
+
+	if [ ! -f Makefile ]; then
+		echo "Bitte führen Sie build_kernel in einem Kerneltree aus."
+		return
+	fi
+
+	if [ -f .config ]; then
+		echo "Eine .config wurde gefunden!"
+		echo "Bitte stellen Sie sicher, das der Kerneltree clean ist."
+		return
+	fi
+
+	if [ -e $MODULE_LOC ]; then
+		echo "$MODULE_LOC existiert bereits."
+		echo "Bitte stellen Sie sicher, dass der Pfad für die Module nicht existiert."
+		return
+	fi
+	
+	if [ $NUM_CPUS -gt 1 ]; then
+		(( CONCURRENCY_LEVEL = NUM_CPUS + 3 ))
+		export CONCURRENCY_LEVEL
+	fi
+
+	tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+
+	for i in $KERNEL_CONFIGS/*; do
+		if [ $(ls $i | wc -l) = 0 ]; then
+			echo "Keine Konfigurationen vorhanden für $i"
+			return
+		fi
+	done
+	
+	dialog --backtitle "dreamind.de  --  Kernel Konfiguration" \
+		--title "Host Auswahl" \
+		--checklist "Bitte wählen sie die Rechner, für die sie einen Kernel compilieren wollen" \
+		0 0 0 \
+		$( for i in $KERNEL_CONFIGS/*; do
+			echo $(basename $i) $(ls -c1 $i | head -n1) off
+		done ) 2>! $tempfile
+
+	KERNEL_HOSTS=($(sed 's/"//g' $tempfile))
+	rm $tempfile
+
+	CONFIG_FOR_HOST=""
+	VERSION=$(	grep "^VERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+	PATCHLEVEL=$(	grep "^PATCHLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+	SUBLEVEL=$(	grep "^SUBLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+	EXTRAVERSION=$(	grep "^EXTRAVERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+	KERNEL_VERSION=$VERSION.$PATCHLEVEL.$SUBLEVEL$EXTRAVERSION
+
+	# make oldconfig
+	for host in $KERNEL_HOSTS; do
+
+		if [ ! -e $KERNEL_CONFIGS/$host/$KERNEL_VERSION ]; then
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+
+			dialog --backtitle "dreamind.de  --  Kernel Konfiguration" \
+			--title "Konfigurationsauswahl für $host" \
+			--radiolist "Leider wurde keine passende Konfiguration gefunden, bitte wählen sie die Konfiguration, welche sie für $host verwenden wollen." \
+			0 0 0 \
+			$( for i in $KERNEL_CONFIGS/$host/*; do
+				echo $(basename $i) $(basename $i) off
+			done ) 2>! $tempfile
+
+			CONFIG_FOR_HOST=($(sed 's/"//g' $tempfile))
+			rm $tempfile
+			if [ -z "$CONFIG_FOR_HOST" ]; then
+				echo "Abbruch!"
+				return
+			fi
+		else
+			CONFIG_FOR_HOST=$KERNEL_VERSION
+		fi
+
+		cp $KERNEL_CONFIGS/$host/$CONFIG_FOR_HOST .config
+
+		case $TERM in
+			xterm*|Eterm|rxvt)
+				echo -ne "\033]0;make oldconfig für host: ${host}\007"
+				;;
+			*)
+				;;
+		esac
+		make oldconfig
+
+		dialog --backtitle "dreamind.de  --  Kernel Konfiguration" --title "Menuconfig" --clear --defaultno \
+			--yesno "Möchten sie menuconfig für $host ausführen (oder war oldconfig ausreichend)?" 15 61
+
+		case $? in
+			0)
+				case $TERM in
+					xterm*|Eterm|rxvt)
+						echo -ne "\033]0;make menuconfig für host: ${host}\007"
+						;;
+					*)
+						;;
+				esac
+				make menuconfig
+				;;
+			1)
+				echo "Kein Menuconfig mehr ausführen."
+				;;
+			255)
+				echo "Sie haben ESC gedrückt, Abbruch!"
+				rm -f .config
+				return
+				;;
+		esac
+
+		cp .config $KERNEL_CONFIGS/$host/$KERNEL_VERSION
+
+	done
+
+	if [ -z "$DO_NOT_BUILD" ]; then
+		# Fertig mit den Konfigurationen, nun sollte für jeden Rechner eine aktuelle Konfiguration existieren.
+		# Auf gehts mit dem Compilieren!!! ;)))
+
+		for host in $KERNEL_HOSTS; do
+
+			cp $KERNEL_CONFIGS/$host/$KERNEL_VERSION .config
+
+			# existieren externe Module für den host?
+			if [ -d $KERNEL_MODULES/$host ]; then
+				cd $(dirname $MODULE_LOC)
+				for i in $(find $KERNEL_MODULES/$host -name \*.tar.gz); do
+					tar xzvf $i
+				done
+				for i in $(find $KERNEL_MODULES/$host -name \*.tar.bz2); do
+					tar xjvf $i
+				done
+				cd -
+			fi
+
+			case $TERM in
+				xterm*|Eterm|rxvt)
+					echo -ne "\033]0;make-kpkg --rootcmd fakeroot --append_to_version -${host} kernel-image\007"
+					;;
+				*)
+					;;
+			esac
+			make-kpkg --rootcmd fakeroot --append_to_version -$host kernel-image
+
+			# now generate the changelog
+			echo -n "building changes for $host: "
+			CHANGESFILE=../$(awk '{gsub (".deb",".changes"); print $1}' debian/files)
+			if dpkg-genchanges -B -m"$KERNEL_MAINTAINER" -e"$KERNEL_MAINTAINER" \
+				>$CHANGESFILE 2>/dev/null; then
+				echo "done."
+			else
+				echo "failed."
+			fi
+
+			debsign $CHANGESFILE
+
+			if [ -d $KERNEL_MODULES/$host ]; then
+				MODULE_LOC=$MODULE_LOC fakeroot make-kpkg --append_to_version -$host \
+					modules
+			fi
+
+			rm -rf $MODULE_LOC
+
+			make mrproper
+			[ -e debian/rules ] && fakeroot debian/rules clean
+			[ -e conf.vars ] && rm -f conf.vars
+			[ -e stamp-configure ] && rm -f stamp-*
+		done
+	else
+		make mrproper
+	fi
+}

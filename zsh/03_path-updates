@@ -1,0 +1,54 @@
+#!/bin/zsh
+#
+# The directorys you might want to add to your path, the last one will be the first.
+
+typeset -U path
+path_save=(/usr/bin /bin)
+# mark the path_save read-only
+typeset -r path_save
+
+
+function zsh_path_prepend() {
+	for dir in $*
+		test -d $dir && path=($dir $path)
+}
+
+function zsh_path_append()  {
+	for dir in $*
+		test -d $dir && path=($path $dir)
+}
+
+function zsh_path_update() {
+	
+	# cleanup the path
+	path=($path_save)
+	
+	# x11 stuff
+	zsh_path_prepend /usr/X11R6/bin
+
+	# Games
+	zsh_path_prepend /usr/games
+
+	# sbin stuff
+	zsh_path_prepend /sbin
+	zsh_path_prepend /usr/sbin
+
+	# expand all stuff from /opt
+	for opt in /opt	$HOME/opt
+		test -d $opt && for dir in $(find $opt -mindepth 1 -maxdepth 1 -type d)
+			zsh_path_prepend $dir/sbin $dir/bin
+
+	zsh_path_prepend /sw/bin
+	zsh_path_prepend /usr/pkg/bin
+	zsh_path_prepend /usr/local/bin
+
+	# needed for netbsd's root and lazy admins
+	zsh_path_prepend /sw/sbin
+	zsh_path_prepend /usr/pkg/sbin
+	zsh_path_prepend /usr/local/sbin
+
+	zsh_path_prepend $HOME/bin
+}
+
+zsh_path_update
+

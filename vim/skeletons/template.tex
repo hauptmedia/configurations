@@ -1,0 +1,89 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%								%
+%	Author:		%%AUTHOR%%				%
+%	Date:		%%DATE%%		%
+%	Description:	Please insert a short description here.	%
+%								%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% A4 Seite = 297x210 mm
+% A5 Seite = 210x148 mm
+
+\documentclass[10pt,oneside,german,a4paper]{article}
+                                        
+\usepackage{babel,german}		% babel.sty: Sprachdef. german=standard
+\usepackage[latin1]{inputenc}		% deutsches ss verwenden
+\usepackage{layout}			% Layout - Testseite mit \layout ausgeben
+\usepackage{setspace}			% Zeilenabstand groesser > 1
+\usepackage{ifthen}			% IF-THEN Paket einbinden
+\usepackage{color}			% Farbmodelle einladen
+% \usepackage{eurosans}			% EURO-Zeichen mit Befehl \euro einfügen
+% \usepackage{time}			% Zeit für Debugging laden
+					% um Grafiken einbinden zu können
+\usepackage{flafter}			% Grafik immer erst NACH Aufruf
+
+% damit wir auch PDF-Dateien erzeugen können ...
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+    \pdffalse				% we are NOT running PDFLaTeX
+  \else
+    \pdfoutput=1			% we are running PDFLaTeX
+    \pdftrue
+\fi
+
+% und damit Grafiken unter PDF funktionieren ...
+\ifpdf
+  \usepackage[pdftex]{graphicx}		% Grafiken einbinden (als PDF)
+  \pdfcompresslevel=1			% wir wollen Katalog, also nicht komrimieren ...    (Komprimierung von 0...9)
+\else
+  \usepackage{graphicx}			% Grafiken einbinden (normal)
+\fi
+
+
+% noch einige individuelle Einstellungen:
+
+% Zwischenraum zwischen Satzende gewollt, daher nonfrechspacing
+\nonfrenchspacing
+
+% Absatzmaße verändern:
+\setlength{\parindent}{0mm}		% Kein einrücken der ersten Zeile vom Absatz!
+
+% Abstand zwischen den Absätzen:
+% \setlength{\parskip}{5ex plus0.5ex minus0.5ex}
+
+% Ränder setzen:
+% linker Rand allgemein bzw. fuer ungerade Seiten bei twoside
+\setlength{\oddsidemargin}{0mm}
+% linker Rand fuer gerade Seiten bei twoside
+% \setlength{\evensidemargin}{0mm}
+
+% Seitenmaße definieren (VORSICHT, normal bereits durch A4, A5 definiert !!!)
+% \setlength{\paperheight}{595pt}	% Seitenhöhe
+% \setlength{\paperwidth}{420pt}	% Seitenbreite
+
+% Textrumpf definieren
+% \setlength{\hoffset}{-1.54cm}		%1 inch = 2.54cm auf 1 cm zuruecknehmen (Def. OHNE Crop marks)
+% \setlength{\voffset}{-2.34cm}		%1 inch = 2.54cm auf 0.2 cm zuruecknehmen (Def. OHNE Crop marks)
+\setlength{\hoffset}{-1in}		%1 inch zuruecknehmen
+\setlength{\voffset}{-1in}		%1 inch zuruecknehmen
+% A4 Seite = 297x210 mm
+\setlength{\textheight}{300mm}
+\setlength{\textwidth}{220mm}
+\setlength{\footskip}{0pt}
+
+% keine Randnotiz
+\setlength{\marginparwidth}{0mm}	% Randnotiz-Breite = 0
+\setlength{\marginparsep}{0mm}		% Randnotiz-Abstand = 0
+
+% Definitionen fuer Kopfzeilen und Fusszeilen
+\setlength{\topmargin}{1mm}		% Abstand Kopfzeile - Seite 
+\setlength{\headheight}{1pt}		% Höhe der Kopfzeile 
+\setlength{\headsep}{1pt}		% Abstand von der Kopfzeile - Textrumpf 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%    DOKUMENT     %%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\end{document}
+% Das wars!

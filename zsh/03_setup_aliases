@@ -1,0 +1,30 @@
+#!/bin/zsh
+# Some aliases, to make darwinports and similar systems easier.
+
+# gnu coreutils
+which gls		>/dev/null && alias ls=gls
+which gdircolors	>/dev/null && alias dircolors=gdircolors
+which gtouchi		>/dev/null && alias touch=gtouch
+which gkill		>/dev/null && alias kill=gkill
+which gchown		>/dev/null && alias chown=gchown
+which gchmod		>/dev/null && alias chmod=gchmod
+which gchgrp		>/dev/null && alias chgrp=gchgrp
+which gseq		>/dev/null && alias seq=gseq
+# removed temporarily, until I can make the zsh warning for rm * work with grm
+#which grm		>/dev/null && alias rm=grm
+which grmdir		>/dev/null && alias rmdir=grmdir
+which gmkdir		>/dev/null && alias mkdir=gmkdir
+which gln		>/dev/null && alias ln=gln
+which gcp		>/dev/null && alias cp=gcp
+which gzcat		>/dev/null && alias zcat=gzcat
+
+# gnu findutils
+which gnufind		>/dev/null && alias find=gnufind
+
+# gnu indent
+which gnuindent		>/dev/null && alias indent=gnuindent
+
+# make sure midnight commander gets TERM=xterm-color on Tiger
+if [ $(uname) = "Darwin" ] && [ $TERM = "xterm" ]; then
+	which mc	>/dev/null && alias mc="TERM=xterm-color mc"
+fi

@@ -1,0 +1,69 @@
+#compdef port
+
+local subcmds 
+
+# we cache the list of ports
+# we shall use some cache policy to avoid problems with new ports
+if (( ! $+portlist )); then
+	portlist=($(port list | cut -f 1))
+fi
+
+subcmds=(
+'install' 
+'uninstall'
+'activate'
+'deactivate'
+'installed'
+'outdated'
+'upgrade'
+'selfupdate'
+'sync'
+'clean'
+'list'
+'search'
+'info'
+'variants'
+'deps'
+'contents'
+'version'
+'unarchive'
+'fetch'
+'extract'
+'patch'
+'configure'
+'build'
+'destroot'
+'test'
+'archive'
+'pkg'
+'mpkg'
+'dmg'
+'rpmpackage'
+)
+
+_arguments -C \
+'-v[verbose mode (generate verbose messages)]' \
+'-d[debug mode (generate debugging messages)]' \
+'-q[quiet mode (suppress messages)]' \
+'-c[autoclean mode (execute clean after install)]' \
+'-k[keep mode (dont autoclean after install)]' \
+'-n[dont follow dependencies in upgrade (only for upgrading)]' \
+'-a[upgrade all installed ports (only for upgrading)]' \
+'-u[uninstall non-active ports when upgrading and uninstalling]' \
+'-D[specify portdir]' \
+'-f[force mode (ignore state file)]' \
+'-o[honor state files older than Portfile]' \
+'-s[source only mode]' \
+'-b[binary only mode]' \
+'1::command:->command' \
+'2::port:->portname' \
+&& return 0
+
+case $state in
+	command)
+	_describe -t command 'port commands' subcmds
+	;;
+	portname)
+	_describe -t portname 'available ports' portlist
+	;;
+esac

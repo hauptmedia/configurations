@@ -1,0 +1,50 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%								%
+%	Author:		%%AUTHOR%%				%
+%	Date:		%%DATE%%		%
+%	Description:	descrtiption				%
+%								%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% A4 Seite = 297x210 mm
+% A5 Seite = 210x148 mm
+
+\documentclass[12pt,a4paper,german]{dinbrief}
+                                        
+\usepackage{babel,german}		% babel.sty: Sprachdef. german=standard
+\usepackage[latin1]{inputenc}		% deutsches ss verwenden
+\usepackage{layout}			% Layout - Testseite mit \layout ausgeben
+% \usepackage{eurosans}			% EURO-Zeichen mit Befehl \euro einfügen
+
+
+% CHANGE THIS IN ~/.vim/skeletons/template-brief.tex
+
+%\name{Sirname, Name}
+%\def\briefkopf{{\bigskip\huge{Sirname Name} \hrulefill \\ }
+%\raggedleft{\normalsize{Street, ZIP City \\ Telefon: 01234-55\,66\,77 \\ 
+%\hspace{20mm} E-Mail: email\,@\,address.com}}} 
+%\address{Sirname\,Name\\Street\\[\medskipamount]ZIP City}
+\address{\briefkopf}
+%\backaddress{Sirname\,Name -- Street -- ZIP City}
+%\phone{(01234)}{556677}
+\pagestyle{headings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%    DOKUMENT     %%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{letter}{Name\\
+		Street\\[\medskipamount]
+		ZIP City}
+\opening{Dear...,}
+\bigskip
+
+% put the content in here
+
+\bigskip
+\bigskip
+%\signature{Realname}
+\closing{Yours}
+\end{letter}
+\end{document}
+% Das wars!
+

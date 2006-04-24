@@ -1,0 +1,16 @@
+#compdef itunes_control
+
+_arguments {-h,--help}'[display help text]' \
+	{-pp,--play-pause}'[toggle iTunes between play and pause]' \
+	{-nt,--next-track}'[play the next track]' \
+	{-pt,--previous-track}'[play the previous track]' \
+	{-ff,--fast-forward}'[fast forward]' \
+	{-ns,--name-search}'[find song containing name]' \
+	{-as,--name-search}'[find song from album]' \
+	{-na,--name-artist}'[find song containing name/artist]' \
+	'--pause[pause playing]' \
+	'--play[start playing]' \
+	'--info[display name the name of the current track being played]' \
+	'--quit[quit iTunes]' \
+
+# vim:set ft=zsh

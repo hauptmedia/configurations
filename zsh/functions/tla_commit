@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+function tla_commit() {
+	tla tree-lint && ${EDITOR:-editor} $(tla make-log) && tla commit
+}

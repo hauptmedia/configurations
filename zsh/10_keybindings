@@ -1,0 +1,6 @@
+#!/bin/zsh
+# emacs mode!
+setopt emacs
+bindkey -s '^X^M' 'mutt\n'
+bindkey -s '^X^A' 'sudo aptitude\n'
+bindkey -s '^A^R' 'screen -r\n'
