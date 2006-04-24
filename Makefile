@@ -5,8 +5,8 @@ UPSTREAM_VERSION := configurations--mainline--0.1
 UPSTREAM := $(UPSTREAM_ARCHIVE)/$(UPSTREAM_VERSION)
 
 FILES := $(shell find . -mindepth 1 -maxdepth 1 \
-		! -name {arch} \
-		! -name .arch-ids \
+		! -name .git \
+		! -name .gitignore \
 		! -name Makefile \
 		! -name _internal_ \
 		| sed 's:^\./bin$$:$(HOME)/bin:' \
