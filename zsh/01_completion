@@ -4,7 +4,7 @@ autoload -U ~/.zsh/functions/completion/*(:t)
 autoload -U compinit
 autoload -U colors
 
-if [ $OS = Windows_NT ]; then
+if [ "$OS" = "Windows_NT" ]; then
 	compinit -u
 else
 	compinit

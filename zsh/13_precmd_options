@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-if [ $(uname -s) = Linux -o $(uname -s) = Darwin ]; then
+if [ "$(uname -s)" = "Linux" -o "$(uname -s)" = "Darwin" ]; then
 	UNAME_XTERM_STRING=$(uname -r)
-elif [ ! -z $OS ]; then
+elif [ ! -z "$OS" ]; then
 	UNAME_XTERM_STRING=$OS
 else
 	UNAME_XTERM_STRING="$(uname -s) $(uname -r)"
