@@ -2,7 +2,7 @@
 
 if [ $(uname -s) = Linux -o $(uname -s) = Darwin ]; then
 	UNAME_XTERM_STRING=$(uname -r)
-elif [ $(uname -o) = Cygwin ]; then
+elif [ ! -z $OS ]; then
 	UNAME_XTERM_STRING=$OS
 else
 	UNAME_XTERM_STRING="$(uname -s) $(uname -r)"
