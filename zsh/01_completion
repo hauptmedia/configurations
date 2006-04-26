@@ -3,7 +3,13 @@ fpath=(~/.zsh/functions/completion $fpath)
 autoload -U ~/.zsh/functions/completion/*(:t)
 autoload -U compinit
 autoload -U colors
-compinit
+
+if [ "$(uname -o)" = "Cygwin" ]; then
+	compinit -u
+else
+	compinit
+fi
+
 colors
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''

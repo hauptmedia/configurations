@@ -4,7 +4,11 @@ function precmd () {
 	case $TERM in
 		xterm*|Eterm|rxvt)
 			echo -ne "\033]0;${USER}@${HOST}";\
-			echo -ne ' :: '${PWD}' :: ['$(uname -r)']\007'
+			if [ ! -z "$UNAME_XTERM_STRING" ]; then
+				echo -ne ' :: '${PWD}' :: ['${UNAME_XTERM_STRING}']\007'
+			else
+				echo -ne ' :: '${PWD}' :: ['$(uname -r)']\007'
+			fi
 			;;
 		*)
 			;;

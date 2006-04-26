@@ -1,0 +1,5 @@
+# fix the http proxy for cygwin.
+
+if [ "$(uname -o)" = "Cygwin" ] && [ ! -z "$HTTP_PROXY" ]; then
+	export http_proxy=$HTTP_PROXY
+fi
