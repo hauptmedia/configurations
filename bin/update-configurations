@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 # small shellscript to cd into your tla tree and update it.
-# it will run make check-missing after.
 
 if [ "$1" = "--help" ]; then
 	echo "update-configurations 0.1"
@@ -23,19 +22,17 @@ if [ -z "$readlink" ]; then
 	exit 2
 fi
 
-arch_tree=$(readlink ~/bin)
+git_tree=$(readlink ~/bin)
 
-if [ -z "$arch_tree" ]; then
+if [ -z "$git_tree" ]; then
 	echo "ERROR: ~/bin is not a symlink!" >&2
 	exit 3
 fi
 
-cd $arch_tree/..
+cd $git_tree/..
 echo "Updating..."
-tla update
+git pull
 echo "update done."
-echo
-make check-missing
 exit 0
 
 
