@@ -31,16 +31,6 @@ syntax on
 " plugins und automatisches indentieren (cindent, etc) anschalten
 filetype plugin indent on
 
-autocmd FileType zsh call SetFtForZsh()
-
-" html commands
-autocmd FileType html source ~/.vim/macros/htmlcmd.vim
-
-" vim's cindent nach gnu-coding-style einstellen (genau wie das programm
-" 'indent')
-autocmd FileType c set cindent tabstop=8 shiftwidth=2 cinoptions={1s,>2s,^-1s,n-1s
-autocmd FileType cpp set cindent tabstop=8 shiftwidth=2 cinoptions={1s,>2s,^-1s,n-1s
-
 " maus einschalten, funktioniert nur bei TERM=xterm
 set mouse=a
 
