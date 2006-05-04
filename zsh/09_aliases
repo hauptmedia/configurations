@@ -11,3 +11,4 @@ fi
 
 alias psgrep="ps xa | grep"
 alias sudo="sudo -H"
+alias kernel_finger="wget -qO- http://www.kernel.org/kdist/finger_banner"
