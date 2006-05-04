@@ -15,6 +15,12 @@ augroup autoinsert
   autocmd BufNewFile *.html 0r ~/.vim/skeletons/template.html
   autocmd BufNewFile Makefile 0r ~/.vim/skeletons/template.make
   autocmd BufNewFile makefile 0r ~/.vim/skeletons/template.make_simple
+  autocmd BufNewFile *.cs 0r ~/.vim/skeletons/template.cs
+  autocmd BufNewFile *.sql 0r ~/.vim/skeletons/template.sql
+  autocmd BufNewFile *.plsql 0r ~/.vim/skeletons/template.plsql
+  autocmd BufNewFile *.lua 0r ~/.vim/skeletons/template.lua
+  autocmd BufNewFile *.m 0r ~/.vim/skeletons/template.m
+  autocmd BufNewFile *.mm 0r ~/.vim/skeletons/template.mm
   autocmd BufNewFile * silent %!~/.vim/do_header %
 augroup END
 endif
