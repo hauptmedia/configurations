@@ -1,6 +1,6 @@
 #!/bin/zsh
-export HISTSIZE=1000
-export SAVEHIST=1000
+export HISTSIZE=5000
+export SAVEHIST=5000
 export HISTFILE=~/.history
 setopt AUTO_CD
 setopt HIST_IGNORE_ALL_DUPS 
