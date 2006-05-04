@@ -14,6 +14,12 @@ augroup autoinsert
   autocmd BufNewFile *.html call s:Template("html")
   autocmd BufNewFile Makefile call s:Template("make")
   autocmd BufNewFile makefile call s:Template("make-simple")
+  autocmd BufNewFile *.cs call s:Template("cs")
+  autocmd BufNewFile *.sql call s:Template("sql")
+  autocmd BufNewFile *.plsql call s:Template("plsql")
+  autocmd BufNewFile *.lua call s:Template("lua")
+  autocmd BufNewFile *.m call s:Template("objc")
+  autocmd BufNewFile *.mm call s:Template("objcpp")
 augroup END
 endif
 
@@ -78,6 +84,36 @@ function s:Template(argument)
 	elseif (a:argument == "html")
 		0r ~/.vim/skeletons/template.html
 		set ft=html
+
+	" C# Template
+	elseif (a:argument == "cs")
+		0r ~/.vim/skeletons/template.cs
+		set ft=cs
+
+	" SQL Template
+	elseif (a:argument == "sql")
+		0r ~/.vim/skeletons/template.sql
+		set ft=sql
+
+	" PL-SQL Template
+	elseif (a:argument == "plsql")
+		0r ~/.vim/skeletons/template.plsql
+		set ft=plsql
+
+	" LUA Template (http://www.lua.org)
+	elseif (a:argument == "lua")
+		0r ~/.vim/skeletons/template.lua
+		set ft=lua
+
+	" Objective C Template
+	elseif (a:argument == "objc")
+		0r ~/.vim/skeletons/template.m
+		set ft=objc
+
+	" Objective C++ Template
+	elseif (a:argument == "objcpp")
+		0r ~/.vim/skeletons/template.mm
+		set ft=objcpp
 
 	endif
 	
