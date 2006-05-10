@@ -20,6 +20,8 @@ which gzcat		>/dev/null && alias zcat=gzcat
 
 # gnu findutils
 which gnufind		>/dev/null && alias find=gnufind
+# if there is no gnufind, maybe gfind...
+which gfind		>/dev/null && alias find=gfind
 
 # gnu indent
 which gnuindent		>/dev/null && alias indent=gnuindent
