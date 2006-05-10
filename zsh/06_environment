@@ -6,3 +6,8 @@ which less >/dev/null && export PAGER=less
 if [ $(uname -s) = "Darwin" ]; then
 	export GQSTATE=""
 fi
+
+# fix $USER on Solaris
+if [ -z "$USER" ] && [ ! -z "$USERNAME" ]; then
+	export USER=$USERNAME
+fi
