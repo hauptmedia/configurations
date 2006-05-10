@@ -1,7 +1,5 @@
 #!/usr/bin/env make
 
-FILES := $(shell ./_internal_/find_what_to_install.sh)
-
 ifdef V
 	Q=
 else
