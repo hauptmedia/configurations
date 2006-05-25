@@ -19,9 +19,9 @@
  */
 
 #ifndef __%%FILEBIG%%_H__
-#define __%%FILEBIG%%_H__
+#define __%%FILEBIG%%_H__ 1
 
-#endif /* __%%FILEBIG%%_H_ */
+#endif /* __%%FILEBIG%%_H__ */
 
 /**This must remain at the end of the file.**********
  * vim600:set sw=2 ts=8 fdm=marker fmr=«««,»»»:     *
