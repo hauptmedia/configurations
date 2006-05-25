@@ -18,14 +18,14 @@
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
  */
 
-#ifndef __%%FILEBIG%%_H__
-#define __%%FILEBIG%%_H__
+#ifndef __%%FILEBIG%%_HPP__
+#define __%%FILEBIG%%_HPP__ 1
 
 class %%FILE%%
 {
 };
 
-#endif /* __%%FILEBIG%%_H_ */
+#endif /* __%%FILEBIG%%_HPP__ */
 
 /**This must remain at the end of the file.**********
  * vim600:set sw=2 ts=8 fdm=marker fmr=«««,»»»:     *
