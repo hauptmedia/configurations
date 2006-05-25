@@ -3,7 +3,7 @@ augroup autoinsert
   au!
   autocmd BufNewFile *.c call s:Template("c")
   autocmd BufNewFile *.h call s:Template("h")
-  autocmd BufNewFile *.hh call s:Template("hh")
+  autocmd BufNewFile *.hpp,*.hh,*.hxx call s:Template("hpp")
   autocmd BufNewFile *.cpp,*.cc,*.cxx call s:Template("cpp")
   autocmd BufNewFile *.tex call s:Template("tex")
   autocmd BufNewFile *-brief.tex call s:Template("tex-brief")
@@ -30,7 +30,7 @@ function s:Template(argument)
 		echo " h		- Header File for C"
 		echo " cpp		- C++ Template"
 		echo " cpp-class	- C++ Class Template"
-		echo " hh		- Header File for C++"
+		echo " hpp		- Header File for C++"
 		echo " tex		- LaTeX Template"
 		echo " tex-brief	- LaTeX Letter (german) Template"
 		echo " java		- Java Template"
@@ -67,8 +67,8 @@ function s:Template(argument)
 			set ft=c
 
 		" Stuff for C++
-		elseif (a:argument == "hh")
-			0r ~/.vim/skeletons/template.hh
+		elseif (a:argument == "hpp")
+			0r ~/.vim/skeletons/template.hpp
 			set ft=cpp
 		elseif (a:argument == "cpp")
 			0r ~/.vim/skeletons/template.cpp
