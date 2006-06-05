@@ -27,8 +27,10 @@ function s:Template(argument)
 	if (a:argument == "help")
 		echo "Currently availible templates:"
 		echo " c		- Plain C Template"
+		echo " c-getopt		- Plain C Template (with getopt example)"
 		echo " h		- Header File for C"
 		echo " cpp		- C++ Template"
+		echo " cpp-getopt	- C++ Template (with getopt example)"
 		echo " cpp-class	- C++ Class Template"
 		echo " hpp		- Header File for C++"
 		echo " tex		- LaTeX Template"
@@ -62,6 +64,9 @@ function s:Template(argument)
 		elseif (a:argument == "c")
 			0r ~/.vim/skeletons/template.c
 			set ft=c
+		elseif (a:argument == "c-getopt")
+			0r ~/.vim/skeletons/template.c_getopt
+			set ft=c
 		elseif (a:argument == "h")
 			0r ~/.vim/skeletons/template.h
 			set ft=c
@@ -72,6 +77,9 @@ function s:Template(argument)
 			set ft=cpp
 		elseif (a:argument == "cpp")
 			0r ~/.vim/skeletons/template.cpp
+			set ft=cpp
+		elseif (a:argument == "cpp-getopt")
+			0r ~/.vim/skeletons/template.cpp_getopt
 			set ft=cpp
 		elseif (a:argument == "cpp-class")
 			0r ~/.vim/skeletons/template.cpp_class
