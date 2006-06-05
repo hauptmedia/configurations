@@ -1,0 +1,100 @@
+/*
+ * %%FILENAME%% - description
+ *
+ * Copyright (C) %%YEAR%% %%AUTHOR%%
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+ */
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <getopt.h>
+
+int
+main (int argc, char **argv)
+{
+  char *foo = NULL, *bar = NULL, *baz = NULL;
+
+  /* parse the commandline arguments ««« */
+  while (true) 
+    {
+      enum {
+	  OPT_FOO = 300,
+	  OPT_BAR,
+	  OPT_BAZ
+      };
+
+      static struct option long_options[] = {
+	    { "foo", required_argument,	NULL, OPT_FOO },
+	    { "bar", required_argument,	NULL, OPT_BAR },
+	    { "baz", required_argument,	NULL, OPT_BAZ },
+	    { NULL, 0, NULL, 0 }
+      };
+
+      int c = getopt_long (argc, argv, "f:b:B:", long_options, NULL);
+
+      if (c == -1)
+	break;
+
+      switch (c)
+	{
+	case 'f':
+	case OPT_FOO:
+	  if (foo)
+	    free (foo);
+	  foo = strdup (optarg);
+	  break;
+	case 'b':
+	case OPT_BAR:
+	  if (bar)
+	    free (bar);
+	  bar = strdup (optarg);
+	  break;
+	case 'B':
+	case OPT_BAZ:
+	  if (baz)
+	    free (baz);
+	  baz = strdup (optarg);
+	  break;
+	case '?':
+	  // commandline error
+	default:
+	  // unhandled commandline option
+	  break;
+	}
+    }
+  /* parse the commandline arguments »»» */
+
+  printf ("foo: %s bar: %s baz: %s\n", foo ? foo : "", bar ? bar : "", baz ? baz : "");
+
+  if (foo)
+    free (foo);
+
+  if (bar)
+    free (bar);
+
+  if (baz)
+    free (baz);
+
+  return 0;
+}
+
+/**This must remain at the end of the file.**********
+ * vim600:set sw=2 ts=8 fdm=marker fmr=«««,»»»:     *
+ * vim600:set cindent cinoptions={1s,>2s,^-1s,n-1s: *
+ ****************************************************/
