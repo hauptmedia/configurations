@@ -7,7 +7,7 @@ augroup autoinsert
   autocmd BufNewFile *.cpp,*.cc,*.cxx call s:Template("cpp")
   autocmd BufNewFile *.tex call s:Template("tex")
   autocmd BufNewFile *-brief.tex call s:Template("tex-brief")
-  autocmd BufNewFile *.java call s:Template("java"
+  autocmd BufNewFile *.java call s:Template("java")
   autocmd BufNewFile *.pl call s:Template("pl")
   autocmd BufNewFile *.pm call s:Template("pm")
   autocmd BufNewFile *.pike call s:Template("pike")
