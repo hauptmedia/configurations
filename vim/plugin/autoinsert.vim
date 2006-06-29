@@ -26,31 +26,31 @@ endif
 function s:Template(argument)
 	if (a:argument == "help")
 		echo "Currently availible templates:"
-		echo " c		- Plain C Template"
-		echo " c-getopt		- Plain C Template (with getopt example)"
-		echo " c-linux		- Plain C Template (Linux CodingStyle)"
-		echo " c-linux-kmod	- Plain C Template (Linux CodingStyle, kernel module)"
-		echo " h		- Header File for C"
-		echo " h-linux		- Header File for C (Linux CodingStyle)"
-		echo " cpp		- C++ Template"
-		echo " cpp-getopt	- C++ Template (with getopt example)"
-		echo " cpp-class	- C++ Class Template"
-		echo " hpp		- Header File for C++"
-		echo " tex		- LaTeX Template"
-		echo " tex-dinbrief	- LaTeX Letter (german) Template"
-		echo " java		- Java Template"
-		echo " pl		- Perl Template"
-		echo " pm		- Perl Module Template"
-		echo " pike		- Pike Template"
-		echo " html		- HTML Template"
-		echo " make		- Makefile Template"
-		echo " make-simple	- Simple Variant of the Makefile Template"
-		echo " cs		- C# Template"
-		echo " sql 		- SQL Template"
-		echo " plsql		- PLPGSQL Template"
-		echo " lua		- Lua Template"
-		echo " ojbc		- Objective C Template"
-		echo " objcpp		- Objective C++ Template"
+		echo " c                - Plain C Template"
+		echo " c-getopt         - Plain C Template (with getopt example)"
+		echo " c-linux          - Plain C Template (Linux CodingStyle)"
+		echo " c-linux-kmod     - Plain C Template (Linux CodingStyle, kernel module)"
+		echo " h                - Header File for C"
+		echo " h-linux          - Header File for C (Linux CodingStyle)"
+		echo " cpp              - C++ Template"
+		echo " cpp-getopt       - C++ Template (with getopt example)"
+		echo " cpp-class        - C++ Class Template"
+		echo " hpp              - Header File for C++"
+		echo " tex              - LaTeX Template"
+		echo " tex-dinbrief     - LaTeX Letter (german) Template"
+		echo " java             - Java Template"
+		echo " pl               - Perl Template"
+		echo " pm               - Perl Module Template"
+		echo " pike             - Pike Template"
+		echo " html             - HTML Template"
+		echo " make             - Makefile Template"
+		echo " make-simple      - Simple Variant of the Makefile Template"
+		echo " cs               - C# Template"
+		echo " sql              - SQL Template"
+		echo " plsql            - PLPGSQL Template"
+		echo " lua              - Lua Template"
+		echo " ojbc             - Objective C Template"
+		echo " objcpp           - Objective C++ Template"
 	else
 		" First delete all in the current buffer
 		%d
@@ -96,7 +96,7 @@ function s:Template(argument)
 		elseif (a:argument == "cpp-class")
 			0r ~/.vim/skeletons/template.cpp_class
 			set ft=cpp
-		
+
 		" My LaTeX Templates
 		elseif (a:argument == "tex")
 			0r ~/.vim/skeletons/template.tex
@@ -104,7 +104,7 @@ function s:Template(argument)
 		elseif (a:argument == "tex-dinbrief")
 			0r ~/.vim/skeletons/template.tex_dinbrief
 			set ft=latex
-		
+
 		" A Java Template
 		elseif (a:argument == "java")
 			0r ~/.vim/skeletons/template.java
@@ -157,9 +157,9 @@ function s:Template(argument)
 		elseif (a:argument == "objcpp")
 			0r ~/.vim/skeletons/template.mm
 			set ft=objcpp
-		
+
 		endif
-		
+
 		silent %!~/.vim/do_header %
 	endif
 endfunction
