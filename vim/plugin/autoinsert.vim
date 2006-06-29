@@ -88,10 +88,10 @@ function s:Template(argument)
 		" My LaTeX Templates
 		elseif (a:argument == "tex")
 			0r ~/.vim/skeletons/template.tex
-			set ft=latex
+			set ft=tex
 		elseif (a:argument == "tex-brief")
 			0r ~/.vim/skeletons/template-brief.tex
-			set ft=
+			set ft=tex
 		
 		" A Java Template
 		elseif (a:argument == "java")
