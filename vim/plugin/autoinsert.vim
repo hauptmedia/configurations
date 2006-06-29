@@ -6,7 +6,7 @@ augroup autoinsert
   autocmd BufNewFile *.hpp,*.hh,*.hxx call s:Template("hpp")
   autocmd BufNewFile *.cpp,*.cc,*.cxx call s:Template("cpp")
   autocmd BufNewFile *.tex call s:Template("tex")
-  autocmd BufNewFile *-brief.tex call s:Template("tex-brief")
+  autocmd BufNewFile *-brief.tex call s:Template("tex-dinbrief")
   autocmd BufNewFile *.java call s:Template("java")
   autocmd BufNewFile *.pl call s:Template("pl")
   autocmd BufNewFile *.pm call s:Template("pm")
@@ -37,7 +37,7 @@ function s:Template(argument)
 		echo " cpp-class	- C++ Class Template"
 		echo " hpp		- Header File for C++"
 		echo " tex		- LaTeX Template"
-		echo " tex-brief	- LaTeX Letter (german) Template"
+		echo " tex-dinbrief	- LaTeX Letter (german) Template"
 		echo " java		- Java Template"
 		echo " pl		- Perl Template"
 		echo " pm		- Perl Module Template"
@@ -101,9 +101,9 @@ function s:Template(argument)
 		elseif (a:argument == "tex")
 			0r ~/.vim/skeletons/template.tex
 			set ft=latex
-		elseif (a:argument == "tex-brief")
-			0r ~/.vim/skeletons/template-brief.tex
-			set ft=
+		elseif (a:argument == "tex-dinbrief")
+			0r ~/.vim/skeletons/template.tex_dinbrief
+			set ft=latex
 		
 		" A Java Template
 		elseif (a:argument == "java")
