@@ -102,7 +102,7 @@ function s:Template(argument)
 			0r ~/.vim/skeletons/template.tex
 			set ft=tex
 		elseif (a:argument == "tex-dinbrief")
-			0r ~/.vim/skeletons/template-brief.tex
+			0r ~/.vim/skeletons/template.tex_dinbrief
 			set ft=tex
 		
 		" A Java Template
