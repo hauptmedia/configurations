@@ -101,7 +101,7 @@ function s:Template(argument)
 		elseif (a:argument == "tex")
 			0r ~/.vim/skeletons/template.tex
 			set ft=tex
-		elseif (a:argument == "tex-brief")
+		elseif (a:argument == "tex-dinbrief")
 			0r ~/.vim/skeletons/template-brief.tex
 			set ft=tex
 		
