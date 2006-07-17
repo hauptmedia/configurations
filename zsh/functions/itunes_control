@@ -24,130 +24,129 @@
 # TODO: write completion function! (easy task)
 #
 
-function itunes_control() {
-	local VERSION=0.1
+local VERSION=0.1
 
-	if [ "$OSTYPE" != "darwin7.0" ]; then
-		return 0
-	fi
+if [ "$OSTYPE" != "darwin7.0" ]; then
+	return 0
+fi
 
-	zparseopts -A command_opts -- -next-track nt -previous-track pt -info -help h -fast-forward ff \
-		-pause -play -play-pause pp  -name-search: ns: -album-search: as: -name-artist: \
-		na:- -quit V --version
+zparseopts -A command_opts -- -next-track nt -previous-track pt -info -help h -fast-forward ff \
+	-pause -play -play-pause pp  -name-search: ns: -album-search: as: -name-artist: \
+	na:- -quit V --version
 
-	if [ $#command_opts != 1 ];then
-		typeset -A command_opts
-		set -A command_opts --help blah
- 	fi
+if [ $#command_opts != 1 ];then
+	typeset -A command_opts
+	set -A command_opts --help blah
+fi
 
-	for command_opt in ${(k)command_opts}; do
-		case $command_opt in
-			-nt|--next-track)
-				osascript \
-					-e "tell application \"iTunes\""  \
-					-e "    set x to \"\"" \
-					-e "    if player state is not playing then" \
-					-e "        play" \
-					-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "        set result to  y" \
-					-e "    else" \
-					-e "        next track" \
-					-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "        set result to y" \
-					-e "    end if" \
-					-e "end tell" 
-				;;
+for command_opt in ${(k)command_opts}; do
+	case $command_opt in
+		-nt|--next-track)
+			osascript \
+				-e "tell application \"iTunes\""  \
+				-e "    set x to \"\"" \
+				-e "    if player state is not playing then" \
+				-e "        play" \
+				-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "        set result to  y" \
+				-e "    else" \
+				-e "        next track" \
+				-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "        set result to y" \
+				-e "    end if" \
+				-e "end tell" 
+			;;
 
-			-pt|--previous-track)
-				osascript \
-					-e "tell application \"iTunes\""  \
-					-e "    set x to \"\"" \
-					-e "    if player state is not playing then" \
-					-e "        play" \
-					-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "        set result to  y" \
-					-e "    else" \
-					-e "        previous track" \
-					-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "        set result to y" \
-					-e "    end if" \
-					-e "end tell" 
-				;;
+		-pt|--previous-track)
+			osascript \
+				-e "tell application \"iTunes\""  \
+				-e "    set x to \"\"" \
+				-e "    if player state is not playing then" \
+				-e "        play" \
+				-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "        set result to  y" \
+				-e "    else" \
+				-e "        previous track" \
+				-e "        set y to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "        set result to y" \
+				-e "    end if" \
+				-e "end tell" 
+			;;
 
-			--info)
-				osascript \
-					-e "tell application \"iTunes\"" \
-					-e "  if player state is not playing then "\
-					-e  "    set result to \"iTunes is not playing a song\"" \
-					-e "  else" \
-					-e "    set x to name of current track & \" by \" & artist of current track & \" from \" & album of current track & \"\"" \
-					-e "    set result to x " \
-					-e "  end if" \
-					-e "end tell"
-				;;
+		--info)
+			osascript \
+				-e "tell application \"iTunes\"" \
+				-e "  if player state is not playing then "\
+				-e  "    set result to \"iTunes is not playing a song\"" \
+				-e "  else" \
+				-e "    set x to name of current track & \" by \" & artist of current track & \" from \" & album of current track & \"\"" \
+				-e "    set result to x " \
+				-e "  end if" \
+				-e "end tell"
+			;;
 
-			-ff|--fast-forward)
-				osascript \
-					-e "tell application \"iTunes\"" \
-					-e "  fast forward" \
-					-e "end tell"
-				;;
+		-ff|--fast-forward)
+			osascript \
+				-e "tell application \"iTunes\"" \
+				-e "  fast forward" \
+				-e "end tell"
+			;;
 
-			--pause)
-				osascript \
-					-e "tell application \"iTunes\" to pause" 
-				;;
+		--pause)
+			osascript \
+				-e "tell application \"iTunes\" to pause" 
+			;;
 
-			--play)
-				osascript \
-					-e "tell application \"iTunes\" to play" 
-				;;
+		--play)
+			osascript \
+				-e "tell application \"iTunes\" to play" 
+			;;
 
-			-pp|--play-pause)
-				osascript \
-					-e "tell application \"iTunes\" to playpause"
-				;;
+		-pp|--play-pause)
+			osascript \
+				-e "tell application \"iTunes\" to playpause"
+			;;
 
-			-ns|--name-search)
-				osascript \
-					-e "tell application \"iTunes\"" \
-					-e "  set mytrack to (first track of view of front window whose name contains \""$command_opts[$command_opt]"\")" \
-					-e "  play mytrack" \
-					-e "    set x to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "    set result to x " \
-					-e "end tell"
-				;;
+		-ns|--name-search)
+			osascript \
+				-e "tell application \"iTunes\"" \
+				-e "  set mytrack to (first track of view of front window whose name contains \""$command_opts[$command_opt]"\")" \
+				-e "  play mytrack" \
+				-e "    set x to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "    set result to x " \
+				-e "end tell"
+			;;
 
-			-as|--album-search)
-				osascript \
-					-e "tell application \"iTunes\"" \
-					-e "  set mytrack to (first track of view of front window whose album contains \""$command_opts[$command_opt]"\")" \
-					-e "  play mytrack" \
-					-e "    set x to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "    set result to x " \
-					-e "end tell"
-				;;
+		-as|--album-search)
+			osascript \
+				-e "tell application \"iTunes\"" \
+				-e "  set mytrack to (first track of view of front window whose album contains \""$command_opts[$command_opt]"\")" \
+				-e "  play mytrack" \
+				-e "    set x to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "    set result to x " \
+				-e "end tell"
+			;;
 
-			-na|--name-artist)
-				osascript \
-					-e "tell application \"iTunes\"" \
-					-e "  set mytrack to (first track of view of front window whose (name contains \""${command_opts[$command_opt]/\/*}"\" and artist contains \""${command_opts[$command_opt]/*\/}"\"))" \
-					-e "  play mytrack" \
-					-e "    set x to name of current track & \" by \" & artist of current track & \"\"" \
-					-e "    set result to x " \
-					-e "end tell"
-				;;
+		-na|--name-artist)
+			osascript \
+				-e "tell application \"iTunes\"" \
+				-e "  set mytrack to (first track of view of front window whose (name contains \""${command_opts[$command_opt]/\/*}"\" and artist contains \""${command_opts[$command_opt]/*\/}"\"))" \
+				-e "  play mytrack" \
+				-e "    set x to name of current track & \" by \" & artist of current track & \"\"" \
+				-e "    set result to x " \
+				-e "end tell"
+			;;
 
 
-			--quit)
-				osascript \
-					-e "tell application \"iTunes\"" \
-					-e "  quit" \
-					-e "end tell"
-				;;
+		--quit)
+			osascript \
+				-e "tell application \"iTunes\"" \
+				-e "  quit" \
+				-e "end tell"
+			;;
 
-			--help)
-				cat << EOF
+		--help)
+			cat << EOF
 Usage: itunes_control [OPTION]
 Remote (command line) control for iTunes.
 
@@ -163,13 +162,13 @@ OPTION can be one of:
 -ns, --name-search=NAME		find song containing "NAME" and play
 -as, --album-search=ALBUM	find album containing "ALBUM" and play
 -na, --name-artist=NAME/ARTIST	find song containing "NAME" and artist "ARTIST"
-				both given as one parameter, seperated by a /
+			both given as one parameter, seperated by a /
 --quit				quit iTunes
 -h, --help			display this help
 EOF
-				;;
-			-V|--version)
-				cat << EOF
+			;;
+		-V|--version)
+			cat << EOF
 itunes_control $VERSION
 Written by Stefan Pfetzing.
 
@@ -177,7 +176,6 @@ Copyright (C) 2004 Stefan Pfetzing <dreamind@dreamind.de>
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 EOF
-				;;
-		esac
-	done
-}
+			;;
+	esac
+done

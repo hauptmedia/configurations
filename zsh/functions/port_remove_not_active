@@ -1,11 +1,9 @@
 # remove not active ports
 
-function port_remove_not_active() {
-	port installed | grep -v active| grep -v '^The following' | while read line ; do
-		name=$(echo $line | awk '{print $1}')
-		version=$(echo $line | awk '{print $2}')
-		echo uninstalling $name $version
-		sudo port -f uninstall $name $version
-	done
-}
+port installed | grep -v active| grep -v '^The following' | while read line ; do
+	name=$(echo $line | awk '{print $1}')
+	version=$(echo $line | awk '{print $2}')
+	echo uninstalling $name $version
+	sudo port -f uninstall $name $version
+done
 # vim:set ft=zsh tw=78:

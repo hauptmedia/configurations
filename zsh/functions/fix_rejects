@@ -1,12 +1,10 @@
 #!/bin/zsh
 
-function fix_rejects() {
-        for i in $(find -name \*.rej);do
-                ${EDITOR:-editor} -o $i ${i/%.rej//}
-                echo -n "delete $i? [y/n] "
-                read -q RM
-                if [ "$RM" = "y" ];then
-                        rm $i
-                fi
-        done
-}
+for i in $(find -name \*.rej);do
+	${EDITOR:-editor} -o $i ${i/%.rej//}
+	echo -n "delete $i? [y/n] "
+	read -q RM
+	if [ "$RM" = "y" ];then
+		rm $i
+	fi
+done

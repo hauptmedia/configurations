@@ -1,9 +1,7 @@
 #!/bin/zsh
 
-function su() {
-	if [ "$1" = "-" ]; then
-		command su $@
-	else
-		command su - $@
-	fi
-}
+if [ "$1" = "-" ]; then
+	command su $@
+else
+	command su - $@
+fi
