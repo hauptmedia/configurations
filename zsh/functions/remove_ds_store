@@ -1,10 +1,11 @@
 # cleanup .DS_Store files, created by Mac OS X finder.
 
 function remove_ds_store() {
-	if [ -z "$(find . -name .DS_Store -print0)" ]; then
+	files="$(find . -name .DS_Store -print0)"
+	if [ -z "$files" ]; then
 		echo "No .DS_Store found."
 	else
-		find . -name .DS_Store -print0 | xargs -0 rm -v
+		echo -n "$files" | xargs -0 rm -v
 	fi
 }
 # vim:set ft=zsh tw=78:
