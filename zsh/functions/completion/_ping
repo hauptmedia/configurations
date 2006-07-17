@@ -1,6 +1,6 @@
 #compdef ping
 
-case OSTYPE in
+case $OSTYPE in
 	linux-*)
 		_arguments -C \
 		  '-a[audible ping]' \
