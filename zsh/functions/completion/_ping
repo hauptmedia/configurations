@@ -1,74 +1,73 @@
 #compdef ping
 
-if [ $(uname -s) = "Linux" ]; then
+case OSTYPE in
+	linux-*)
+		_arguments -C \
+		  '-a[audible ping]' \
+		  '-A[adaptive ping]' \
+		  '-b[allow pinging a broadcast address]' \
+		  '-B[do not allow ping to change source address of probes]' \
+		  '-c[ping count]:count number' \
+		  '-d[set the SO_DEBUG option on the socket being used]' \
+		  '-F[flow label]:flow label' \
+		  '-f[flood ping]' \
+		  '-i[ping interval]:number of seconds' \
+		  '-I[interface address]:interface address' \
+		  '-l[preload]:preload data' \
+		  '-L[suppress loopback of multicast packets]' \
+		  '-n[numeric output only]' \
+		  '-p[specify pad bytes]:pattern' \
+		  '-Q[set quality of service related bits]:tos' \
+		  '-q[quiet output]' \
+		  '-R[record route]' \
+		  '-s[packetsize]:packetsize' \
+		  '-S[set socket sndbuf]:sndbuf' \
+		  '-t[set the time to live]:ttl' \
+		  '-T[set special ip timestamp options]:timestamp option' \
+		  '-M[select path MTU discovery strategy]:hint' \
+		  '-U[print full user-to-user latency]' \
+		  '-v[verbose output]' \
+		  '-V[show version and exit]' \
+		  '-w[specify a timeout in seconds before ping exits]:deadline' \
+		  '-W[time to wait for a response]:timeout' \
+		  ':destination host:_hosts'
+		  ;;
+	darwin*)
+		_arguments -C \
+		  '-A[audible ping on not received packets]' \
+		  '-a[audible ping]' \
+		  '-c[ping count]:count number' \
+		  '-D[set the don'\''t fragment bit]' \
+		  '-d[set the SO_DEBUG on the socket]' \
+		  '-f[flood ping]' \
+		  '-I[source multicast packets with the given interface addess]:iface' \
+		  '-i[ping interval]:number of seconds' \
+		  '-L[suppress loopback of multicast packets]' \
+		  '-l[preload]:preload data' \
+		  '-M[use ICMP_MASKREQ or ICMP_TSTAMP instead of ICMP_ECHO]:mask' \
+		  '-m[set the time to live]:ttl' \
+		  '-n[numeric output only]' \
+		  '-o[exit successfully after receiving one reply packet]' \
+		  '-P[specify IPsec policy]:policy' \
+		  '-p[specify pad bytes]:pattern' \
+		  '-Q[somewhat quiet output]' \
+		  '-q[quiet output]' \
+		  '-R[record route]' \
+		  '-r[bypass the normal routing tables and send directly]' \
+		  '-S[specify source address]:source address' \
+		  '-s[specify the number of bytes to be sent]:packetsize' \
+		  '-T[set the time to live for multicast destinations]:ttl' \
+		  '-t[specify a timeout in seconds before ping exits]:timeout' \
+		  '-v[verbose output]' \
+		  '-z[set quality of service related bits]:tos' \
+		  ':destination host:_hosts'
+		  ;;
+	*)
+		_arguments -C \
+		  '-a[audible ping]' \
+		  '-c[ping count]:count number' \
+		  '-i[ping interval]:number of seconds' \
+		  ':destination host:_hosts'
+		  ;;
+esac
 
-	_arguments -C \
-	  '-a[audible ping]' \
-	  '-A[adaptive ping]' \
-	  '-b[allow pinging a broadcast address]' \
-	  '-B[do not allow ping to change source address of probes]' \
-	  '-c[ping count]:count number' \
-	  '-d[set the SO_DEBUG option on the socket being used]' \
-	  '-F[flow label]:flow label' \
-	  '-f[flood ping]' \
-	  '-i[ping interval]:number of seconds' \
-	  '-I[interface address]:interface address' \
-	  '-l[preload]:preload data' \
-	  '-L[suppress loopback of multicast packets]' \
-	  '-n[numeric output only]' \
-	  '-p[specify pad bytes]:pattern' \
-	  '-Q[set quality of service related bits]:tos' \
-	  '-q[quiet output]' \
-	  '-R[record route]' \
-	  '-s[packetsize]:packetsize' \
-	  '-S[set socket sndbuf]:sndbuf' \
-	  '-t[set the time to live]:ttl' \
-	  '-T[set special ip timestamp options]:timestamp option' \
-	  '-M[select path MTU discovery strategy]:hint' \
-	  '-U[print full user-to-user latency]' \
-	  '-v[verbose output]' \
-	  '-V[show version and exit]' \
-	  '-w[specify a timeout in seconds before ping exits]:deadline' \
-	  '-W[time to wait for a response]:timeout' \
-	  ':destination host:_hosts'
-
-elif [ $(uname -s) = "Darwin" ]; then
-
-	_arguments -C \
-	  '-A[audible ping on not received packets]' \
-	  '-a[audible ping]' \
-	  '-c[ping count]:count number' \
-	  '-D[set the don'\''t fragment bit]' \
-	  '-d[set the SO_DEBUG on the socket]' \
-	  '-f[flood ping]' \
-	  '-I[source multicast packets with the given interface addess]:iface' \
-	  '-i[ping interval]:number of seconds' \
-	  '-L[suppress loopback of multicast packets]' \
-	  '-l[preload]:preload data' \
-	  '-M[use ICMP_MASKREQ or ICMP_TSTAMP instead of ICMP_ECHO]:mask' \
-	  '-m[set the time to live]:ttl' \
-	  '-n[numeric output only]' \
-	  '-o[exit successfully after receiving one reply packet]' \
-	  '-P[specify IPsec policy]:policy' \
-	  '-p[specify pad bytes]:pattern' \
-	  '-Q[somewhat quiet output]' \
-	  '-q[quiet output]' \
-	  '-R[record route]' \
-	  '-r[bypass the normal routing tables and send directly]' \
-	  '-S[specify source address]:source address' \
-	  '-s[specify the number of bytes to be sent]:packetsize' \
-	  '-T[set the time to live for multicast destinations]:ttl' \
-	  '-t[specify a timeout in seconds before ping exits]:timeout' \
-	  '-v[verbose output]' \
-	  '-z[set quality of service related bits]:tos' \
-	  ':destination host:_hosts'
-
-else
-
-	_arguments -C \
-	  '-a[audible ping]' \
-	  '-c[ping count]:count number' \
-	  '-i[ping interval]:number of seconds' \
-	  ':destination host:_hosts'
-
-fi
