@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 
-# small shellscript to cd into your tla tree and update it.
+# small shellscript to cd into your git tree and update it.
 
 if [ "$1" = "--help" ]; then
 	echo "update-configurations 0.1"
 	echo
-	echo "small shellscript to update your configurations tla tree."
+	echo "small shellscript to update your configurations git tree."
 	echo
 	exit 0
 fi
