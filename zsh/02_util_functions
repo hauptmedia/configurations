@@ -6,6 +6,7 @@
 
 function zsh_var_prepend() {
 	local var=$1
+	local dir
 	shift
 	for dir in $*
 		test -d $dir && eval "$var=($dir \$$var)"
@@ -13,6 +14,7 @@ function zsh_var_prepend() {
 
 function zsh_var_append()  {
 	local var=$1
+	local dir
 	shift
 	for dir in $*
 		test -d $dir && eval "$var=(\$$var $dir)"
