@@ -1,7 +1,7 @@
 			Configurations
 			/============/
 
-  This is a set of configuration examples managed in an arch tree, to ease
+  This is a set of configuration examples managed in a git tree, to ease
 branching. Since you will most likely create your own configurations based on
 the examples, its intended to create a branch for your local configurations.
 
@@ -9,94 +9,6 @@ the examples, its intended to create a branch for your local configurations.
 is written and documented, but if you see something which is not quite well
 documented, you are always free to contact me.
 
-			How to use this
-			/=============/
-
-  Before you can start with this stuff, you have to set your own "ID" which is
-used by arch to sign changesets and to identify who created which changestet.
-To do this you'll have to use the command 'tla my-id', for more details on
-this, please refer to 'tla my-id -H' and the tutorial for arch written by Tom
-Lord.
-
-  The command I used to set my personal id:
-
-    tla my-id "Stefan Pfetzing <dreamind@dreamind.de>"
-
-  Next would be registering my archive as a source, so you will later be able
-to create a branch of it.
-
-  This can somply be done by the following command:
-
-    tla register-archive http://www.dreamind.de/archives/2005-dreamind.de
-
-  Now you 'll have to choose a place where to put your own repository, if you
-haven't done already. This can be accessible over standard filesystem, sftp,
-ftp or even http (webdav or plain http). For my personal stuff I prefer sftp,
-but if you only have your own ftp site, then thats ok too.
-
-  After you have chosen a place where to put your repository, create an
-archive there where you can put your local branch. For details on how to do
-this, please refer to the nice arch tutorial written by Tom Lord.
-
-  The command I used to setup the archive:
-
-    tla make-archive dreamind@dreamind.de--2005-local \
-     "sftp://my.machine/home/dreamind/{archives}/2005-local"
-
-  Now your arch tree should be ready and you can start with your personal
-branch. As written before, if you want any details on this you should read the
-online tutorial.
-
-  The commands I used to create my personal branch:
-
-    tla my-default-archive dreamind@dreamind.de--2005-local
-    tla archive-setup configurations--dreamind--0.1
-    tla tag \
-     dreamind@dreamind.de--2005-dreamind.de/configurations--mainline--0.1 \
-     configurations--dreamind--0.1
-
-  Since you now have a branched revision in your local repository, you can now
-start checking this version out and do your own changes.
-
-  The commands I used to perform this:
-
-    mkdir -p ~/src/configurations
-    cd ~/src/configurations
-    tla get configurations--dreamind--0.1 configurations--dreamind--0.1
-
-  Note: you have to specify the name twice, first is the archive, second the
-directory.
-
-  Now its time to experiment with your own tree (refer to the tutorial for
-informations about tla, as mentioned before) and commit the changes into your
-personal archive.
-
-  In order to put symlinks to the files in this repository into your home, you
-simply can call 'make' inside your checkout. This will create the symlinks
-into your home and ask you if a file or a directory should be moved away.
-Nothing will be deleted, if some file or a directory is moved away, its placed
-in ~/OLD and you are free to sort out your stuff and delete it later on.
-
-  If you later want to merge changes done in the upstream repository, you
-could always use the explicit tla command. But its easier to use a target of
-the makefile:
-
-    make replay
-
-since this will update the tree. After you applied the changes to your local
-checkout with replay, you will have to commit the changes, to make them
-permanent (stored in your personal repository).
-
-
-  If you have questions about this documentation or about any configuration
-file included, you are welcome to write me an email.
-
-
-			TODO
-			/==/
-
-* mention this on my website
-* autocreate a changelog.
 
 ------------------------------------------------------------------------------
 Author:  Stefan Pfetzing <dreamind@dreamind.de>
@@ -107,6 +19,6 @@ Some Changes are contributed by Michael Löffler <zvpunry@zvpunry.de>
 
 
 Last Change:
-Mon May 23 00:13:42 CEST 2005
+Di Jul 18 22:14:30 CEST 2006
 
 vim:set tw=78:

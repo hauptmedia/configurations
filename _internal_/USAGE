@@ -2,7 +2,7 @@
 			/============/
 
 Welcome to configurations. This is a small script which uses
-tla to make it easy to manage your configurations in your home.
+git to make it easy to manage your configurations in your home.
 
 You will now be asked if a file or a directory already exists
 in your home. Symlinks will sliently be DELETED.
