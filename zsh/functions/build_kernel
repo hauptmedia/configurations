@@ -58,7 +58,8 @@ dialog --backtitle "dreamind.de  --  Kernel Konfiguration" \
 		echo $(basename $i) $(ls -c1 $i | head -n1) off
 	done ) 2>! $tempfile
 
-local KERNEL_HOSTS=($(sed 's/"//g' $tempfile))
+local KERNEL_HOSTS
+KERNEL_HOSTS=($(sed 's/"//g' $tempfile))
 rm $tempfile
 
 local CONFIG_FOR_HOST=""
