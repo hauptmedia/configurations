@@ -1,0 +1,20 @@
+#!/bin/zsh
+#
+
+# Some utility functions, used by several $PATH, $MANPATH etc updating
+# shell snipplets.
+
+function zsh_var_prepend() {
+	local var=$1
+	shift
+	for dir in $*
+		test -d $dir && eval "$var=($dir \$$var)"
+}
+
+function zsh_var_append()  {
+	local var=$1
+	shift
+	for dir in $*
+		test -d $dir && eval "$var=(\$$var $dir)"
+}
+
