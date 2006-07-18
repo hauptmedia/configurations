@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-local KERNEL_BASE KERNEL_MODULES_KERNEL_CONFIGS KERNEL_MAINTAINER NUM_CPUS MODULE_LOC
+local KERNEL_BASE KERNEL_MODULES KERNEL_CONFIGS KERNEL_MAINTAINER NUM_CPUS MODULE_LOC
 local KERNEL_CONFIG=""
 
 if [ ! -r ~/.build_kernel ]; then
@@ -39,8 +39,10 @@ if [ $NUM_CPUS -gt 1 ]; then
 	export CONCURRENCY_LEVEL
 fi
 
+local tempfile
 tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 
+local i
 for i in $KERNEL_CONFIGS/*; do
 	if [ $(ls $i | wc -l) = 0 ]; then
 		echo "Keine Konfigurationen vorhanden für $i"
@@ -56,21 +58,22 @@ dialog --backtitle "dreamind.de  --  Kernel Konfiguration" \
 		echo $(basename $i) $(ls -c1 $i | head -n1) off
 	done ) 2>! $tempfile
 
-KERNEL_HOSTS=($(sed 's/"//g' $tempfile))
+local KERNEL_HOSTS=($(sed 's/"//g' $tempfile))
 rm $tempfile
 
-CONFIG_FOR_HOST=""
-VERSION=$(	grep "^VERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
-PATCHLEVEL=$(	grep "^PATCHLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
-SUBLEVEL=$(	grep "^SUBLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
-EXTRAVERSION=$(	grep "^EXTRAVERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
-KERNEL_VERSION=$VERSION.$PATCHLEVEL.$SUBLEVEL$EXTRAVERSION
+local CONFIG_FOR_HOST=""
+local VERSION=$(	grep "^VERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+local PATCHLEVEL=$(	grep "^PATCHLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+local SUBLEVEL=$(	grep "^SUBLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+local EXTRAVERSION=$(	grep "^EXTRAVERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+local KERNEL_VERSION=$VERSION.$PATCHLEVEL.$SUBLEVEL$EXTRAVERSION
 
 # make oldconfig
+local host
 for host in $KERNEL_HOSTS; do
 
 	if [ ! -e $KERNEL_CONFIGS/$host/$KERNEL_VERSION ]; then
-		tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+		local tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 
 		dialog --backtitle "dreamind.de  --  Kernel Konfiguration" \
 		--title "Konfigurationsauswahl für $host" \
@@ -80,14 +83,14 @@ for host in $KERNEL_HOSTS; do
 			echo $(basename $i) $(basename $i) off
 		done ) 2>! $tempfile
 
-		CONFIG_FOR_HOST=($(sed 's/"//g' $tempfile))
+		local CONFIG_FOR_HOST=($(sed 's/"//g' $tempfile))
 		rm $tempfile
 		if [ -z "$CONFIG_FOR_HOST" ]; then
 			echo "Abbruch!"
 			return
 		fi
 	else
-		CONFIG_FOR_HOST=$KERNEL_VERSION
+		local CONFIG_FOR_HOST=$KERNEL_VERSION
 	fi
 
 	cp $KERNEL_CONFIGS/$host/$CONFIG_FOR_HOST .config
@@ -133,6 +136,7 @@ if [ -z "$DO_NOT_BUILD" ]; then
 	# Fertig mit den Konfigurationen, nun sollte für jeden Rechner eine aktuelle Konfiguration existieren.
 	# Auf gehts mit dem Compilieren!!! ;)))
 
+	local host
 	for host in $KERNEL_HOSTS; do
 
 		cp $KERNEL_CONFIGS/$host/$KERNEL_VERSION .config
@@ -140,6 +144,7 @@ if [ -z "$DO_NOT_BUILD" ]; then
 		# existieren externe Module für den host?
 		if [ -d $KERNEL_MODULES/$host ]; then
 			cd $(dirname $MODULE_LOC)
+			local i
 			for i in $(find $KERNEL_MODULES/$host -name \*.tar.gz); do
 				tar xzvf $i
 			done
@@ -160,7 +165,7 @@ if [ -z "$DO_NOT_BUILD" ]; then
 
 		# now generate the changelog
 		echo -n "building changes for $host: "
-		CHANGESFILE=../$(awk '{gsub (".deb",".changes"); print $1}' debian/files)
+		local CHANGESFILE=../$(awk '{gsub (".deb",".changes"); print $1}' debian/files)
 		if dpkg-genchanges -B -m"$KERNEL_MAINTAINER" -e"$KERNEL_MAINTAINER" \
 			>$CHANGESFILE 2>/dev/null; then
 			echo "done."
@@ -181,6 +186,7 @@ if [ -z "$DO_NOT_BUILD" ]; then
 		[ -e debian/rules ] && fakeroot debian/rules clean
 		[ -e conf.vars ] && rm -f conf.vars
 		[ -e stamp-configure ] && rm -f stamp-*
+		[ -e .config ] && rm .config
 	done
 else
 	make mrproper

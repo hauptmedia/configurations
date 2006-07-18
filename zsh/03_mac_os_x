@@ -1,0 +1,28 @@
+#!/bin/zsh
+# Mac OS X specific stuff
+
+local prefix
+
+case $OSTYPE in
+	darwin*)
+		for prefix in /sw /opt/DarwinPorts /opt/local
+			test -d $prefix ] && break
+		;;
+esac
+
+if [ "$prefix" ]; then
+
+	# update the java classpath
+	if [ -r cat $prefix/share/java/classpath ]; then
+		export CLASSPATH
+		typeset -U classpath
+		typeset -T CLASSPATH classpath
+		classpath=(`cat $prefix/share/java/classpath` $classpath)
+	fi
+
+	# setup the DISPLAY variable, so X11 stuff works in the Apple Terminal too.
+	if ps xa | grep -v grep | grep -q X11; then
+		export DISPLAY=:0
+	fi
+
+fi

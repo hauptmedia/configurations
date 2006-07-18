@@ -3,58 +3,82 @@
 # The directorys you might want to add to your path, the last one will be the first.
 
 typeset -U path
-path_save=(/usr/bin /bin)
-# mark the path_save read-only
-typeset -r path_save
+path_safe=(/usr/bin /bin)
+# mark the path_sfve read-only
+typeset -r path_safe
 
+if [ -z "$MANPATH" ]; then
+	MANPATH=`/usr/bin/manpath -q`
+fi
+export MANPATH
+typeset -U manpath
 
-function zsh_path_prepend() {
-	for dir in $*
-		test -d $dir && path=($dir $path)
-}
+export INFOPATH
+typeset -U infopath
+typeset -T INFOPATH infopath
+infopath_safe=(/usr/share/info)
+typeset -r infopath_safe
 
-function zsh_path_append()  {
-	for dir in $*
-		test -d $dir && path=($path $dir)
-}
+export PERL5LIB
+typeset -U perl5lib
+typeset -T PERL5LIB perl5lib
 
 function zsh_path_update() {
 	
 	# cleanup the path
-	path=($path_save)
+	path=($path_safe)
+	infopath=($infopath_safe)
 	
 	# solaris stuff
 	for dir in apache apache2 appserver ccs java dt openwin \
-		perl5 proc sadm snadm xpg4 xpg6 sfw
-		test -d /usr/$dir && zsh_path_prepend /usr/$dir/sbin /usr/$dir/bin
+		perl5 proc sadm snadm xpg4 xpg6 sfw; do
+		if [ -d /usr/$dir ]; then
+			zsh_var_prepend path /usr/$dir/sbin /usr/$dir/bin
+			zsh_var_prepend manpath /usr/$dir/share/man /usr/$dir/man
+			zsh_var_prepend infopath /usr/$dir/share/info
+			zsh_var_prepend perl5lib /usr/$dir/lib/perl5 /usr/$dir/lib/perl5/vendor_perl
+		fi
+	done
 
 	# x11 stuff
-	zsh_path_prepend /usr/X11R6/bin
+	zsh_var_prepend path /usr/X11R6/bin
+	zsh_var_prepend manpath /usr/X11R6/man
 
 	# Games
-	zsh_path_prepend /usr/games
+	zsh_var_prepend path /usr/games
 
 	# sbin stuff
-	zsh_path_prepend /sbin
-	zsh_path_prepend /usr/sbin
+	zsh_var_prepend path /sbin
+	zsh_var_prepend path /usr/sbin
 
 	# expand all stuff from /opt
 	setopt NULL_GLOB
 	for opt in /opt	$HOME/opt
-		test -d $opt && for dir in $opt/*
-			test -d $dir && zsh_path_prepend $dir/sbin $dir/bin
+		test -d $opt && for dir in $opt/*; do
+			if [ -d $dir ]; then
+				zsh_var_prepend path $dir/sbin $dir/bin
+				zsh_var_prepend manpath $dir/share/man $dir/man
+				zsh_var_prepend infopath $dir/share/info
+				zsh_var_prepend perl5lib $dir/lib/perl5 $dir/lib/perl5/vendor_perl \
+					$dir/lib/perl5/darwin
+			fi
+		done
 	unsetopt NULL_GLOB
 
-	zsh_path_prepend /sw/bin
-	zsh_path_prepend /usr/pkg/bin
-	zsh_path_prepend /usr/local/bin
+	for dir in /sw /usr/pkg /usr/local; do
+		zsh_var_prepend path $dir/bin
+		zsh_var_prepend manpath $dir/share/man $dir/man
+		zsh_var_prepend infopath $dir/share/info
+		zsh_var_prepend perl5lib $dir/lib/perl5 $dir/lib/perl5/vendor_perl \
+			$dir/lib/perl5/darwin
+	done
 
 	# needed for netbsd's root and lazy admins
-	zsh_path_prepend /sw/sbin
-	zsh_path_prepend /usr/pkg/sbin
-	zsh_path_prepend /usr/local/sbin
+	for dir in /sw /usr/pkg /usr/local; do
+		zsh_var_prepend path $dir/sbin
+	done
 
-	zsh_path_prepend $HOME/bin
+	zsh_var_prepend path $HOME/bin
 }
 
 zsh_path_update
