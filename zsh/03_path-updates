@@ -7,7 +7,7 @@ path_safe=(/usr/bin /bin)
 # mark the path_sfve read-only
 typeset -r path_safe
 
-if [ -z "$MANPATH" ]; then
+if [ -z "$MANPATH" ] && [ -x /usr/bin/manpath ]; then
 	MANPATH=`/usr/bin/manpath -q`
 fi
 export MANPATH
