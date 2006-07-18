@@ -37,7 +37,7 @@ fi
 cd $git_tree/..
 echo "Updating..."
 
-head=$(git symbolic-ref head)
+head=$(git symbolic-ref HEAD)
 head=${head/#refs\/heads\//}
 
 case $head in
