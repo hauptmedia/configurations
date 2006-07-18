@@ -1,6 +1,6 @@
 CXX := g++
-CXXFLAGS := -Wall -pedantic -O3 `pkg-config --cflags gtkmm-2.4`
-LDFLAGS := `pkg-config --libs gtkmm-2.4`
+CXXFLAGS := -Wall -pedantic -O3
+LDFLAGS :=
 
 PROG := main
 OBJS := main.o
