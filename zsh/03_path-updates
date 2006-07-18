@@ -12,7 +12,6 @@ if [ -z "$MANPATH" ]; then
 fi
 export MANPATH
 typeset -U manpath
-typeset -T MANPATH manpath
 
 export INFOPATH
 typeset -U infopath
