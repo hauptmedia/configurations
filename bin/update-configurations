@@ -15,14 +15,19 @@ if [ ! -e ~/bin ]; then
 	exit 1
 fi
 
-readlink=$(which readlink)
+RDLNK=""
+if which readlink >/dev/null 2>&1; then
+	RDLNK=readlink
+elif which greadlink >/dev/null 2>&1; then
+	RDLNK=greadlink
+fi
 
-if [ -z "$readlink" ]; then
+if [ -z "$RDLNK" ]; then
 	echo "ERROR: Your System is missing the readlink command" >&2
 	exit 2
 fi
 
-git_tree=$(readlink ~/bin)
+git_tree=$($RDLNK ~/bin)
 
 if [ -z "$git_tree" ]; then
 	echo "ERROR: ~/bin is not a symlink!" >&2
