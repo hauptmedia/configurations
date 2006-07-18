@@ -1,6 +1,7 @@
 # small zsh function to determine a remote bind version
 
 echo "Domain: $1"
+local ns
 for ns in $(host -t ns $1|awk '{print $4}'); do
 	echo -n "$ns: "
 	dig @$ns version.bind. txt CHAOS | 

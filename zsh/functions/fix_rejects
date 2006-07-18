@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+local i
 for i in $(find -name \*.rej);do
 	${EDITOR:-editor} -o $i ${i/%.rej//}
 	echo -n "delete $i? [y/n] "

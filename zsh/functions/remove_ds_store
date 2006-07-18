@@ -1,5 +1,6 @@
 # cleanup .DS_Store files, created by Mac OS X finder.
 
+local files
 files="$(find . -name .DS_Store -print0)"
 if [ -z "$files" ]; then
 	echo "No .DS_Store found."

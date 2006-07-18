@@ -1,5 +1,7 @@
 # remove not active ports
 
+local name
+local version
 port installed | grep -v active| grep -v '^The following' | while read line ; do
 	name=$(echo $line | awk '{print $1}')
 	version=$(echo $line | awk '{print $2}')

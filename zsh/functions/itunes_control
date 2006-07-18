@@ -30,6 +30,7 @@ if [ "$OSTYPE" != "darwin7.0" ]; then
 	return 0
 fi
 
+local command_opts
 zparseopts -A command_opts -- -next-track nt -previous-track pt -info -help h -fast-forward ff \
 	-pause -play -play-pause pp  -name-search: ns: -album-search: as: -name-artist: \
 	na:- -quit V --version
