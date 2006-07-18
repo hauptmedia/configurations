@@ -45,6 +45,7 @@ function s:Template(argument)
 		echo " html             - HTML Template"
 		echo " make             - Makefile Template"
 		echo " make-simple      - Simple Variant of the Makefile Template"
+		echo " make-simple-cpp  - Simple Variant of the Makefile Template (c++ version)"
 		echo " cs               - C# Template"
 		echo " sql              - SQL Template"
 		echo " plsql            - PLPGSQL Template"
@@ -61,6 +62,9 @@ function s:Template(argument)
 			set ft=make
 		elseif (a:argument == "make-simple")
 			0r ~/.vim/skeletons/template.make_simple
+			set ft=make
+		elseif (a:argument == "make-simple-cpp")
+			0r ~/.vim/skeletons/template.make_simple_cpp
 			set ft=make
 
 		" Stuff for plain C

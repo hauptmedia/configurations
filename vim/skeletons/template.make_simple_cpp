@@ -1,5 +1,5 @@
-CC := gcc
-CFLAGS := -Wall -pedantic -O3
+CXX := g++
+CXXFLAGS := -Wall -pedantic -O3
 LDFLAGS :=
 
 PROG := main
@@ -8,7 +8,7 @@ OBJS := main.o
 all: $(PROG)
 
 $(PROG): $(OBJS)
-	$(LD) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) -o $@ $^
 
 clean:
 	rm -rf $(PROG) $(OBJS)
