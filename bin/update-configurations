@@ -36,7 +36,24 @@ fi
 
 cd $git_tree/..
 echo "Updating..."
-git pull
+
+head=$(git symbolic-ref head)
+head=${head/#refs\/heads\//}
+
+case $head in
+	master)
+		git pull
+		;;
+	*)
+		echo "Current branch: $head"
+		if [ ! -e .git/remotes/$head ]; then
+			echo "No remote named $head exists, aborting." >&2
+			exit 3
+		fi
+		git pull $head
+		;;
+esac
+
 echo "update done."
 exit 0
 
