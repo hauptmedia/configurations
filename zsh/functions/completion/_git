@@ -266,7 +266,10 @@ _git_commands () {
   local -a commands
   for wanted_command in $=wanted_commands; do
     case $wanted_command in
-      (all) commands=($commands $additional_commands) ;;
+      (all) commands=($base_commands $additional_commands $useful_commands \
+		      $interoperability_commands $rarely_used_commands \
+		      $mostly_useless_commands $internal_commands ) ;;
+      (additional) commands=($commands $additional_commands) ;;
       (base) commands=($commands $base_commands) ;;
       (interoperability) commands=($commands $interoperability_commands) ;;
       (useful) commands=($commands $useful_commands) ;;
