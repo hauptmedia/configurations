@@ -949,14 +949,13 @@ _git-bisect () {
   fi
 }
 
-# TODO: complete branch names?
 _git-branch () {
   _arguments \
     '(-D -d -f :)-r[list only the "remote" branches]' \
     '(-D -d -f -r 2)-d[delete a branch, which must be fully merged]' \
     '(-D -d -f -r 2)-D[delete a branch]' \
     '(-D -d -f -r)-f[force a reset of <branch-name> to <start-point>]' \
-    ':branch-name' \
+    ':branch-name:__git_heads' \
     '::start-point:__git_revisions' && ret=0
 }
 
