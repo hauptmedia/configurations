@@ -261,7 +261,7 @@ _git_commands () {
     'rev-parse:pick out and massage parameters for other git commands')
 
   local wanted_commands
-  zstyle -s ':completion:${curcontext}:' commands wanted_commands || wanted_commands="base useful"
+  zstyle -s ":completion:${curcontext}:" commands wanted_commands || wanted_commands="base useful"
 
   local -a commands
   for wanted_command in $=wanted_commands; do

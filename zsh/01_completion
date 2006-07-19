@@ -40,4 +40,7 @@ zstyle -e ':completion:*:(ssh|scp|rsync|ping|mtr|traceroute):*' hosts 'reply=(
 #zstyle ':completion:*:(ssh|scp):*:my-accounts' users-hosts \
 #        my.secret.account@student.uu.se
 
+zstyle ':completion::complete:git:*' commands all
+zstyle ':completion::complete:git:*' verbose false
+
 #source /etc/environment
