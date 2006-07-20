@@ -4,8 +4,6 @@
  * Internationalization (gettext?)
  * document build_kernel
  * add more hooks for build_kernel
- * add arch configuration - at least as documentation
  * update website documentation
  * create Mailinglist
  * add some Applescript-ing stuff
-
