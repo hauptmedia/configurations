@@ -1,24 +1,60 @@
 			Configurations
 			/============/
 
-  This is a set of configuration examples managed in a git tree, to ease
+  This is a set of configuration files managed in a git tree, to ease
 branching. Since you will most likely create your own configurations based on
-the examples, its intended to create a branch for your local configurations.
+these files, it is intended to create a branch for your local configurations.
 
-  Mostly it includes configurations for VIM and Zsh. Most of the configuration
-is written and documented, but if you see something which is not quite well
-documented, you are always free to contact me.
+  It includes configurations for different programs but the biggest parts are
+the Configurations for zsh and vim. There are also some utilities like
+build_kernel which is very useful to build large amounts of linux-kernel for
+different debian systems.
+
+  There is a simple Makefile (for GNU Make) which can be used to install the
+symlinks by just typing "make" and there is a update-configurations script
+which can be called to pull in changes from the upstream.
+
+			What about GIT
+			/============/
+
+  Git is a very nice SCM which provides many nice features like very easy
+branching, merging, cloning and so on... far to much to describe in this file.
+There are some simple git commands you should know to use these collections of
+configuration files.
+
+  An example:
+
+	$ mkdir -p $HOME/devel/git; cd $HOME/devel/git
+	$ git clone git://www.dreamind.de/files/scm/configurations-0.1.git configurations
+	$ cd configurations
+	$ make
+
+  Answer everything with 'y'
+
+	$ ls -la $HOME/OLD
+
+  Decide what to save or just delete the old stuff
+
+	$ rm -ri $HOME/OLD
+
+  Now you have cloned everything and installed symlinks in your home
+directory. The git clone command has created a local git repository which has
+two branches, one is named master and one is named origin. The first one is
+the default branch and is your own master. You can make your personal changes
+here and pull in upstream changes (see link below).
+
+  If you plan to make your changes public it is recommended to separate
+personal changes and generic changes. Put everything in your master branch and
+if you change for example "zsh/07_email" put it in a personal branch.
+
+  Please read this: http://www.kernel.org/pub/software/scm/git/docs
 
 
 ------------------------------------------------------------------------------
 Author:  Stefan Pfetzing <dreamind@dreamind.de>
 License: GPL v2 or newer. (See _internal_/COPYING)
 
-Some Changes are contributed by Michael Löffler <zvpunry@zvpunry.de>
+Some changes are contributed by Michael Loeffler <zvpunry@zvpunry.de>
 ------------------------------------------------------------------------------
-
-
-Last Change:
-Di Jul 18 22:14:30 CEST 2006
 
 vim:set tw=78:
