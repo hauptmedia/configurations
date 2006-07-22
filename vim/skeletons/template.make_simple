@@ -8,7 +8,7 @@ OBJS := main.o
 all: $(PROG)
 
 $(PROG): $(OBJS)
-	$(LD) $(LDFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
 	rm -rf $(PROG) $(OBJS)
