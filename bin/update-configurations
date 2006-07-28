@@ -42,7 +42,10 @@ head=${head/#refs\/heads\//}
 
 case $head in
 	master)
-		git pull
+		if git pull; then
+			echo "Executing Make..."
+			make
+		fi
 		;;
 	*)
 		echo "Current branch: $head"
@@ -50,7 +53,10 @@ case $head in
 			echo "No remote named $head exists, aborting." >&2
 			exit 3
 		fi
-		git pull $head
+		if git pull $head; then
+			echo "Executing Make..."
+			make
+		fi
 		;;
 esac
 
