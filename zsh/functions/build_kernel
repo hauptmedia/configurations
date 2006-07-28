@@ -4,7 +4,7 @@ local KERNEL_BASE KERNEL_MODULES KERNEL_CONFIGS KERNEL_MAINTAINER NUM_CPUS MODUL
 local KERNEL_CONFIG=""
 
 if [ ! -r ~/.build_kernel ]; then
-	echo "Konnte die Konfiguration ~/.build_kernel nicht lesen."
+	echo "Konnte die Konfiguration ~/.build_kernel nicht lesen." >&2
 	return
 fi
 
@@ -12,25 +12,41 @@ source ~/.build_kernel
 
 if ! [ "$KERNEL_BASE" -a "$KERNEL_MODULES" -a "$KERNEL_CONFIGS" -a \
 	"$KERNEL_MAINTAINER" -a "$NUM_CPUS" -a "$MODULE_LOC" ]; then
-	echo "Achtung, build_kernel ist nicht richtig konfiguriert."
-	echo "Bitte passen Sie ~/.build_kernel ihren Wünschen entsprechend an."
+	echo "Achtung, build_kernel ist nicht richtig konfiguriert." >&2
+	echo "Bitte passen Sie ~/.build_kernel ihren Wünschen entsprechend an." >&2
+	return
+fi
+
+# auf benötigte Packete prüfen.
+local pkg pkgstat pkg_check
+pkg_check=0
+for pkg in libncurses5-dev kernel-package dialog fakeroot; do
+	if pkgstat=$(dpkg -s $pkg 2>/dev/null| grep '^Status'|awk '{print $4}') &&
+		[ "$pkgstat" = "installed" ]; then
+	else
+		echo "Bitte installieren Sie das Packet \"$pkg\" vor der Benutzung von build_kernel." >&2
+		pkg_check=1
+	fi
+done
+if [ $pkg_check -ne 0 ]; then
+	echo "Danke." >&2
 	return
 fi
 
 if [ ! -f Makefile ]; then
-	echo "Bitte führen Sie build_kernel in einem Kerneltree aus."
+	echo "Bitte führen Sie build_kernel in einem Kerneltree aus." >&2
 	return
 fi
 
 if [ -f .config ]; then
-	echo "Eine .config wurde gefunden!"
-	echo "Bitte stellen Sie sicher, das der Kerneltree clean ist."
+	echo "Eine .config wurde gefunden!" >&2
+	echo "Bitte stellen Sie sicher, das der Kerneltree clean ist." >&2
 	return
 fi
 
 if [ -e $MODULE_LOC ]; then
-	echo "$MODULE_LOC existiert bereits."
-	echo "Bitte stellen Sie sicher, dass der Pfad für die Module nicht existiert."
+	echo "$MODULE_LOC existiert bereits." >&2
+	echo "Bitte stellen Sie sicher, dass der Pfad für die Module nicht existiert." >&2
 	return
 fi
 
@@ -45,7 +61,7 @@ tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 local i
 for i in $KERNEL_CONFIGS/*; do
 	if [ $(ls $i | wc -l) = 0 ]; then
-		echo "Keine Konfigurationen vorhanden für $i"
+		echo "Keine Konfigurationen vorhanden für $i" >&2
 		return
 	fi
 done
@@ -73,6 +89,8 @@ local KERNEL_VERSION=$VERSION.$PATCHLEVEL.$SUBLEVEL$EXTRAVERSION
 local host
 for host in $KERNEL_HOSTS; do
 
+	local CONFIG_FOR_HOST
+
 	if [ ! -e $KERNEL_CONFIGS/$host/$KERNEL_VERSION ]; then
 		local tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 
@@ -84,14 +102,14 @@ for host in $KERNEL_HOSTS; do
 			echo $(basename $i) $(basename $i) off
 		done ) 2>! $tempfile
 
-		local CONFIG_FOR_HOST=($(sed 's/"//g' $tempfile))
+		CONFIG_FOR_HOST=($(sed 's/"//g' $tempfile))
 		rm $tempfile
 		if [ -z "$CONFIG_FOR_HOST" ]; then
 			echo "Abbruch!"
 			return
 		fi
 	else
-		local CONFIG_FOR_HOST=$KERNEL_VERSION
+		CONFIG_FOR_HOST=$KERNEL_VERSION
 	fi
 
 	cp $KERNEL_CONFIGS/$host/$CONFIG_FOR_HOST .config
