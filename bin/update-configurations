@@ -43,8 +43,7 @@ head=${head/#refs\/heads\//}
 case $head in
 	master)
 		if git pull; then
-			echo "Executing Make..."
-			make
+			make QUIET=1
 		fi
 		;;
 	*)
@@ -54,8 +53,7 @@ case $head in
 			exit 3
 		fi
 		if git pull $head; then
-			echo "Executing Make..."
-			make
+			make QUIET=1
 		fi
 		;;
 esac

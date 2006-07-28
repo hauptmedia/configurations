@@ -15,7 +15,9 @@ startup: help FORCE
 	$(Q)$(PWD)/_internal_/install.sh
 
 help: FORCE
+ifndef QUIET
 	@cat $(PWD)/_internal_/USAGE
+endif
 
 # the force target, .PHONY could be used too, but FORCE is better for patches.
 FORCE:
