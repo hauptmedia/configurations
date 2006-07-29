@@ -202,7 +202,7 @@ if [ -z "$DO_NOT_BUILD" ]; then
 		rm -rf $MODULE_LOC
 
 		if [ -d .git ]; then
-			git clean -d && git reset --hard
+			git clean -X -d && git reset --hard
 		else
 			make mrproper
 			[ -e debian/rules ] && fakeroot debian/rules clean
