@@ -207,6 +207,16 @@ if [ -z "$DO_NOT_BUILD" ]; then
 		[ -e stamp-configure ] && rm -f stamp-*
 		[ -e .config ] && rm .config
 	done
+	# in the end, make sure every generated changes file is correct and signed.
+	#
+	# Some "modules" packages tend to mixup (wrongly) the Maintainer and Changed By fields.
+	# So the .changes files can't be signed :(
+	for i in $(grep Changed-By ../*.changes|grep -v $EMAIL|awk -F: '{print $1}'); do
+		sed -i 's/Changed-By/M_aintainer/' $i
+		sed -i 's/Maintainer/Changed-By/' $i
+		sed -i 's/M_aintainer/Maintainer/' $i
+		debsign $i
+	done
 else
 	make mrproper
 fi
