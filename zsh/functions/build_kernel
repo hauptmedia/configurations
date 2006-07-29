@@ -201,11 +201,15 @@ if [ -z "$DO_NOT_BUILD" ]; then
 
 		rm -rf $MODULE_LOC
 
-		make mrproper
-		[ -e debian/rules ] && fakeroot debian/rules clean
-		[ -e conf.vars ] && rm -f conf.vars
-		[ -e stamp-configure ] && rm -f stamp-*
-		[ -e .config ] && rm .config
+		if [ -d .git ]; then
+			git clean -d && git reset --hard
+		else
+			make mrproper
+			[ -e debian/rules ] && fakeroot debian/rules clean
+			[ -e conf.vars ] && rm -f conf.vars
+			[ -e stamp-configure ] && rm -f stamp-*
+			[ -e .config ] && rm .config
+		fi
 	done
 else
 	make mrproper
