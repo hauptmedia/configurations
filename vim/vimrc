@@ -74,14 +74,6 @@ else
 endif
 endfunction
 
-fun! SetFtForZsh()
-if &indentexpr != "GetShIndent()"
-	set ft=sh
-	set ft=zsh
-endif
-endfunction
-
-
 set nolist
 set listchars=tab:»·,trail:·
 map <F4> :call Switch_list()<cr>
