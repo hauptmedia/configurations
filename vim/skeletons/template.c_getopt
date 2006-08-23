@@ -72,9 +72,9 @@ main (int argc, char **argv)
 	  baz = strdup (optarg);
 	  break;
 	case '?':
-	  // commandline error
+	  /* commandline error */
 	default:
-	  // unhandled commandline option
+	  /* unhandled commandline option */
 	  break;
 	}
     }
