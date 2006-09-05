@@ -1,7 +1,9 @@
 #!/bin/zsh
 
 local KERNEL_BASE KERNEL_MODULES KERNEL_CONFIGS KERNEL_MAINTAINER NUM_CPUS MODULE_LOC
-local KERNEL_CONFIG=""
+local KERNEL_CONFIG KERNEL_OPTIONS
+
+KERNEL_CONFIG=""
 
 if [ ! -r ~/.build_kernel ]; then
 	echo "Konnte die Konfiguration ~/.build_kernel nicht lesen." >&2
@@ -11,7 +13,7 @@ fi
 source ~/.build_kernel
 
 if ! [ "$KERNEL_BASE" -a "$KERNEL_MODULES" -a "$KERNEL_CONFIGS" -a \
-	"$KERNEL_MAINTAINER" -a "$NUM_CPUS" -a "$MODULE_LOC" ]; then
+	"$KERNEL_MAINTAINER" -a "$NUM_CPUS" -a "$MODULE_LOC" -a "$KERNEL_OPTIONS" ]; then
 	echo "Achtung, build_kernel ist nicht richtig konfiguriert." >&2
 	echo "Bitte passen Sie ~/.build_kernel ihren Wünschen entsprechend an." >&2
 	return
@@ -160,6 +162,15 @@ if [ -z "$DO_NOT_BUILD" ]; then
 
 		cp $KERNEL_CONFIGS/$host/$KERNEL_VERSION .config
 
+		# make-kpkg optionen laden
+		# 
+		# derzeit wird nur die Variable MAKE_KPKG_OPTS beachtet
+		#
+		local MAKE_KPKG_OPTS
+		if [ -f $KERNEL_OPTIONS/$host ]; then
+			source $KERNEL_OPTIONS/$host
+		fi
+
 		# existieren externe Module für den host?
 		if [ -d $KERNEL_MODULES/$host ]; then
 			cd $(dirname $MODULE_LOC)
@@ -175,12 +186,12 @@ if [ -z "$DO_NOT_BUILD" ]; then
 
 		case $TERM in
 			xterm*|Eterm|rxvt)
-				echo -ne "\033]0;make-kpkg --rootcmd fakeroot --append_to_version -${host} kernel-image\007"
+				echo -ne "\033]0;make-kpkg --rootcmd fakeroot $MAKE_KPKG_OPTS --append_to_version -${host} kernel-image\007"
 				;;
 			*)
 				;;
 		esac
-		make-kpkg --rootcmd fakeroot --append_to_version -$host kernel-image
+		make-kpkg --rootcmd fakeroot $MAKE_KPKG_OPTS --append_to_version -$host kernel-image
 
 		# now generate the changelog
 		echo -n "building changes for $host: "
