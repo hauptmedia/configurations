@@ -272,10 +272,13 @@ _git_commands () {
       (all) commands=($base_commands $additional_commands $useful_commands \
 		      $interoperability_commands $rarely_used_commands \
 		      $mostly_useless_commands $internal_commands ) ;;
-      (additional) commands=($commands $additional_commands) ;;
       (base) commands=($commands $base_commands) ;;
-      (interoperability) commands=($commands $interoperability_commands) ;;
+      (additional) commands=($commands $additional_commands) ;;
       (useful) commands=($commands $useful_commands) ;;
+      (interoperability) commands=($commands $interoperability_commands) ;;
+      (rarely_used) commands=($commands $rarely_used_commands) ;;
+      (mostly_useless) commands=($commands $mostly_useless_commands) ;;
+      (internal) commands=($commands $internal_commands) ;;
     esac
   done
 
