@@ -217,6 +217,11 @@ if [ -z "$DO_NOT_BUILD" ]; then
 		[ -e conf.vars ] && rm -f conf.vars
 		[ -e stamp-configure ] && rm -f stamp-*
 		[ -e .config ] && rm .config
+		if [ -d .git ]; then
+			git clean -x -d
+			git reset --hard
+			git checkout -f
+		fi
 	done
 	# in the end, make sure every generated changes file is correct and signed.
 	#
