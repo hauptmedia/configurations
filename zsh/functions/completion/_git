@@ -126,8 +126,10 @@ whitespace_arg=(
 												  strip\:"output warning and strip trailing whitespace"))'
 )
 
-# TODO: either skip uninteresting commands or skip the description - the list
-# is just too long
+# TODO: Either skip uninteresting commands or skip the description - the list
+# is just too long.
+# NOTE: I'm coming to the opinion that skipping the description is the right
+# thing to do…, but not 100% sure yet.
 _git_commands () {
   local -a base_commands
   base_commands=(
@@ -180,7 +182,6 @@ _git_commands () {
     'diff-stages:compare two "merge states" in the index file'
     'diff-tree:compare the content and mode of blobs found via two tree objects'
     'fetch-pack:receive missing objects from another repository'
-    'format-patch:prepare patches for e-mail submission'
     'fmt-merge-msg:produce merge commit message'
     'imap-send:dump mailbox from stdin into imap folder'
     'index-pack:build pack index file for an existing packed archive'
@@ -208,14 +209,12 @@ _git_commands () {
     'request-pull:generate summary of pending changes'
     'rerere:reuse recorded resolve'
     'resolve:merge two commits'
-    'send-email:send patch-e-mails out of "format-patch" output'
     'shortlog:summarize git log output'
     'show-index:display contents of a pack idx file'
     'symbolic-ref:read and modify symbolic references'
     'tar-tree:create tar archive of the files in the named tree'
     "unpack-file:create temporary file with blob's contents"
     'unpack-objects:unpack objects out of packed archive'
-    'update-index:modify index in some given way'
     'update-ref:update object name stored in a reference safely'
     'update-server-info:update auxiliary information on a dumb server'
     'var:display git logical variable'
@@ -225,8 +224,11 @@ _git_commands () {
 
   local -a useful_commands
   useful_commands=(
+    'format-patch:prepare patches for e-mail submission'
     'ls-files:information about files in the index/working directory'
-    'repo-config:get and set options in "$GIT_DIR/config"')
+    'repo-config:get and set options in "$GIT_DIR/config"'
+    'send-email:send patch-e-mails out of "format-patch" output'
+    'update-index:modify index in some given way')
 
   local -a interoperability_commands
   interoperability_commands=(
@@ -270,10 +272,13 @@ _git_commands () {
       (all) commands=($base_commands $additional_commands $useful_commands \
 		      $interoperability_commands $rarely_used_commands \
 		      $mostly_useless_commands $internal_commands ) ;;
-      (additional) commands=($commands $additional_commands) ;;
       (base) commands=($commands $base_commands) ;;
-      (interoperability) commands=($commands $interoperability_commands) ;;
+      (additional) commands=($commands $additional_commands) ;;
       (useful) commands=($commands $useful_commands) ;;
+      (interoperability) commands=($commands $interoperability_commands) ;;
+      (rarely_used) commands=($commands $rarely_used_commands) ;;
+      (mostly_useless) commands=($commands $mostly_useless_commands) ;;
+      (internal) commands=($commands $internal_commands) ;;
     esac
   done
 
@@ -1709,7 +1714,7 @@ __git_tags () {
 
 # TODO: depending on what options are on the command-line already, complete
 # only tags or heads
-# TODO: perhaps caching is unnecessary.  usually wonât contain that much data
+# TODO: perhaps caching is unnecessary.  usually won’t contain that much data
 # TODO: perhaps provide alternative here for both heads and tags (and use
 # __git_heads and __git_tags)
 # TODO: instead of "./.", we should be looking in the repository specified as
