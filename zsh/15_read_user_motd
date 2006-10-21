@@ -1,0 +1,22 @@
+#!/bin/zsh
+#
+
+# A small shell snipplet, which reads (if existent) a ~/.motd - which can be either
+# a Directory or a File.
+#
+# ~/.motd is thought to be nice in order to leave a note, prob. as the root user on some
+# machine.
+#
+
+if [ -f ~/.motd ]; then
+	echo "===== ~/.motd ====="
+	cat ~/.motd
+elif [ -d ~/.motd ]; then
+	setopt NULL_GLOB
+	for file in ~/.motd/*; do
+		echo "===== $file ====="
+		cat $file
+	done
+	unsetopt NULL_GLOB
+fi
+
