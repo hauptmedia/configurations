@@ -308,6 +308,9 @@ if [[ $words[1] == git ]]; then
     '(- :)--version[display version information]' \
     '(- :)--help[display help message]' \
     '--exec-path=-[path containing core git-programs]::directory:_directories' \
+    '--git-dir=-[path containing the repository]::directory:_directories' \
+    '(- :)--bare[same as --git-dir=$PWD]' \
+    '(-p --paginate)'{-p,--paginate}'[pipe all output into less (or if set, $PAGER)]' \
     ':command:->command' \
     '*::options:->options' && ret=0
   case $state in
