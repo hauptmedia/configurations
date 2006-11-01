@@ -2,5 +2,9 @@
 # emacs mode!
 setopt emacs
 bindkey -s '^X^M' 'mutt\n'
-bindkey -s '^X^A' 'sudo aptitude\n'
+if [ $UID = 0 ]; then
+	bindkey -s '^X^A' 'aptitude\n'
+else
+	bindkey -s '^X^A' 'sudo aptitude\n'
+fi
 bindkey -s '^A^R' 'screen -r\n'
