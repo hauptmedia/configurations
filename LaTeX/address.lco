@@ -1,0 +1,30 @@
+% Die Definition meiner Adresse und Unterschrift.
+\ProvidesFile{address.lco}[2002/02/25 letter class option]
+
+\setkomavar{fromname}{Realname}
+\setkomavar{fromaddress}{Street No\\ ZIP City}
+%\setkomavar{fromemail}{user\,@\,domain.com}
+\setkomavar{fromurl}{http://www.domain.com/}
+\setkomavar{fromphone}{Your Telephone Number}
+\setkomavar{signature}{}
+\setkomavar{frombank}{Your Bank Information Line}
+\setkomavar{place}{City}
+%\@setplength{firstheadvpos}{8mm}
+
+\firsthead{{\bigskip\huge{\usekomavar{fromname}} \hrulefill \\ }
+\raggedleft{\normalsize{\usekomavar{fromaddress} \ifkomavarempty{fromphone}{ \\ }{\\ \usekomavar{fromphone} \\ }
+\ifkomavarempty{fromurl}{}{\hspace{20mm} \usekomavar{fromurl}}}}}
+
+\firstfoot{%
+        \parbox[t]{\textwidth}{\footnotesize
+                \ifkomavarempty{frombank}{}{%
+                        \begin{center}
+                                \hrulefill
+                                \\
+                                \,\,\tiny{Bankverbindung:  \usekomavar{frombank}}
+                        \end{center}%
+                }%
+        }%
+} 
+% vim:set ft=tex:
+
