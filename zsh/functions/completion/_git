@@ -301,31 +301,6 @@ local curcontext=$curcontext ret=1
 #  _call_function ret _$words[1]
 #fi
 
-if [[ $words[1] == git ]]; then
-  local context state line
-  typeset -A opt_args
-  _arguments \
-    '(- :)--version[display version information]' \
-    '(- :)--help[display help message]' \
-    '--exec-path=-[path containing core git-programs]::directory:_directories' \
-    '--git-dir=-[path containing the repository]::directory:_directories' \
-    '(- :)--bare[same as --git-dir=$PWD]' \
-    '(-p --paginate)'{-p,--paginate}'[pipe all output into less (or if set, $PAGER)]' \
-    ':command:->command' \
-    '*::options:->options' && ret=0
-  case $state in
-    (command)
-      _git_commands
-      ;;
-    (options)
-      curcontext="${curcontext%:*:*}:git-$words[1]:"
-      _call_function ret _git-$words[1]
-      ;;
-  esac
-else
-  _call_function ret _$words[1]
-fi
-
 _git-annotate () {
   _arguments -S \
     '(-l --long)'{-l,--long}'[show long rev]' \
@@ -1765,3 +1740,30 @@ __git_repo-config_name () {
 __git_is_indexed () {
   [[ -n $(git ls-files $REPLY) ]]
 }
+
+# this must must remain at the bottom of this file to ensure every function
+# or variable is defined when it is executed.
+if [[ $words[1] == git ]]; then
+  local context state line
+  typeset -A opt_args
+  _arguments \
+    '(- :)--version[display version information]' \
+    '(- :)--help[display help message]' \
+    '--exec-path=-[path containing core git-programs]::directory:_directories' \
+    '--git-dir=-[path containing the repository]::directory:_directories' \
+    '(- :)--bare[same as --git-dir=$PWD]' \
+    '(-p --paginate)'{-p,--paginate}'[pipe all output into less (or if set, $PAGER)]' \
+    ':command:->command' \
+    '*::options:->options' && ret=0
+  case $state in
+    (command)
+      _git_commands
+      ;;
+    (options)
+      curcontext="${curcontext%:*:*}:git-$words[1]:"
+      _call_function ret _git-$words[1]
+      ;;
+  esac
+else
+  _call_function ret _$words[1]
+fi
