@@ -4,12 +4,17 @@
 
 typeset -U path
 path_safe=(/usr/bin /bin)
-# mark the path_sfve read-only
+# mark the path_safe read-only
 typeset -r path_safe
 
-if [ -z "$MANPATH" ] && [ -x /usr/bin/manpath ]; then
-	MANPATH=`/usr/bin/manpath -q`
+if [ -z "$MANPATH" ]; then
+	if [ -x /usr/bin/manpath ]; then
+		MANPATH=`/usr/bin/manpath -q`
+	else
+		MANPATH="/usr/man:/usr/share/man:/usr/X11R6/man:/usr/local/man"
+	fi
 fi
+
 export MANPATH
 typeset -U manpath
 
