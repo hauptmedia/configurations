@@ -4,8 +4,12 @@ if [ "$TERM" != "dumb" ] && which dircolors > /dev/null; then
 	eval `dircolors -b`
 	if which gls >/dev/null; then
 		alias ls='gls --color=auto'
+		alias ll='gls -l --color=auto'
+		alias la='gls -la --color=auto'
 	else
 		alias ls='ls --color=auto'
+		alias ll='ls -l --color=auto'
+		alias la='ls -la --color=auto'
 	fi
 fi
 

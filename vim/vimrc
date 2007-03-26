@@ -57,9 +57,6 @@ set encoding=iso-8859-15
 " selbiges für termencoding
 let &termencoding=&encoding
 
-" Sicherstellen, dass die richtigen Encodings durchprobiert werden.
-set fencs=ucs-bom,utf8,default,latin9
-
 " automatisches generieren eines html files entsprechend vim's syntax
 " highlighting und farben. einfach 2html im kommandomodus eingeben (ohne :)
 nmap 2html :runtime! syntax/2html.vim<CR>
