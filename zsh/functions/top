@@ -1,0 +1,18 @@
+# small zsh function to open top -u on osx.
+# if you pass any parameter to top, -u won't be used.
+
+local param
+
+case $OSTYPE in
+	darwin*)
+		param="-u"
+		;;
+esac
+
+if [ "$@" ]; then
+	command top $@
+else
+	command top $param
+fi
+
+# vim:set ft=zsh tw=78:
