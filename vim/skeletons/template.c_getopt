@@ -31,7 +31,7 @@ main (int argc, char **argv)
   char *foo = NULL, *bar = NULL, *baz = NULL;
 
   /* parse the commandline arguments ллл */
-  while (true) 
+  while (true)
     {
       enum {
 	  OPT_FOO = 300,
