@@ -9,6 +9,8 @@ if [ -e $localLaTeX ]; then
 	texinputs=(. $texinputs $localLaTeX)
 fi
 
+export TEXINPUTS
+
 # remove the variable again
 unset localLaTeX
 
