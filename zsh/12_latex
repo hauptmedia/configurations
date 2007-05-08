@@ -6,7 +6,7 @@ localLaTeX=~/.LaTeX
 if [ -e $localLaTeX ]; then
 	# add the local latex path to TEXINPUTS
 	typeset -T TEXINPUTS texinputs
-	texinputs=(. $texinputs $localLaTeX)
+	texinputs=(. $texinputs $localLaTeX "")
 fi
 
 export TEXINPUTS
