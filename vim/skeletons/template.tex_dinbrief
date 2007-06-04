@@ -10,7 +10,7 @@
 % A5 Seite = 210x148 mm
 
 \documentclass[12pt,a4paper,german,address,parskip=true]{scrlttr2}
-                                        
+
 \usepackage{babel,german}		% babel.sty: Sprachdef. german=standard
 \usepackage[latin1]{inputenc}		% deutsches ss verwenden
 \usepackage{layout}			% Layout - Testseite mit \layout ausgeben

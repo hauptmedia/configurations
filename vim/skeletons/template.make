@@ -6,7 +6,7 @@ CXX			:= g++
 CXXFLAGS		:= -Wall -pedantic -O3
 CC			:= gcc
 CFLAGS			:= -Wall -pedantic -ansi -O3
-#LDFLAGS		:= 
+#LDFLAGS		:=
 
 BASE_DIR		:= $(shell pwd)
 #TMP_DIR		:= $(BASE_DIR)/tmp

@@ -30,7 +30,7 @@ main (int argc, char **argv)
   std::string foo, bar, baz;
 
   /* parse the commandline arguments ллл */
-  while (true) 
+  while (true)
     {
       enum {
 	  OPT_FOO = 300,
