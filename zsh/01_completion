@@ -43,4 +43,8 @@ zstyle -e ':completion:*:(ssh|scp|rsync|ping|mtr|traceroute):*' hosts 'reply=(
 zstyle ':completion::complete:git(|-help):*' commands all
 zstyle ':completion::complete:git:*' verbose false
 
+# No do not complete that aptitude-* stuff directly!
+zstyle ':completion:*:complete:-command-::commands' ignored-patterns 'aptitude-*'
+zstyle ':completion:::::' completer _complete _ignored _approximate
+
 #source /etc/environment
