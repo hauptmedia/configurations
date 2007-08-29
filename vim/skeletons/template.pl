@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 #
 #  %%FILENAME%% - description
 #
@@ -19,4 +19,7 @@
 #  Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 #
 
+use warnings;
 use strict;
+
+# vim:set ft=perl fdm=marker fmr=><!>,<!><:
