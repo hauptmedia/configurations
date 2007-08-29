@@ -69,16 +69,13 @@ if &term == "rxvt"
 set term=xterm
 endif
 
-fun! Switch_list()
-if &list
-	set nolist
-else
-	set list
-endif
-endfunction
-
 set nolist
 set listchars=tab:»·,trail:·
-map <F4> :call Switch_list()<cr>
 
-map <F5> :set nonu<cr>
+" Die Hilfe NERVT!
+map <F1> :<cr>
+imap <F1> X<backspace>
+
+map <F3> :set ignorecase!<cr>:set ignorecase?<cr>
+map <F4> :set list!<cr>:set list?<cr>
+map <F5> :set nu!<cr>:set nu?<cr>
