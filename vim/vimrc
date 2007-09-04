@@ -76,6 +76,7 @@ set listchars=tab:»·,trail:·
 map <F1> :<cr>
 imap <F1> X<backspace>
 
+map <F2> :set paste!<cr>:set paste?<cr>
 map <F3> :set ignorecase!<cr>:set ignorecase?<cr>
 map <F4> :set list!<cr>:set list?<cr>
 map <F5> :set nu!<cr>:set nu?<cr>
