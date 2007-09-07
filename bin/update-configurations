@@ -10,6 +10,19 @@ if [ "$1" = "--help" ]; then
 	exit 0
 fi
 
+if [ "$1" = "-f" ]; then
+	echo "Do you *REALLY* know what '-f' does?"
+	echo
+	echo "This will REMOVE all your local uncommitted changes and force an upgrade."
+	echo
+	echo -n "Enter YES to continue: "
+	read VAR
+	if [ ! "$VAR" = "YES" ]; then
+		exit 1;
+	fi
+	FORCE=YES
+fi
+
 if [ ! -e ~/bin ]; then
 	echo "ERROR: you do not have a ~/bin symlink!" >&2
 	exit 1
@@ -42,6 +55,10 @@ head=${head/#refs\/heads\//}
 
 case $head in
 	master)
+		if [ "$FORCE" ]; then
+			git reset --hard
+		fi
+
 		if git pull; then
 			make QUIET=1
 		fi
@@ -52,6 +69,11 @@ case $head in
 			echo "No remote named $head exists, aborting." >&2
 			exit 3
 		fi
+
+		if [ "$FORCE" ]; then
+			git reset --hard
+		fi
+
 		if git pull $head; then
 			make QUIET=1
 		fi
