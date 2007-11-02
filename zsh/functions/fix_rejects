@@ -2,7 +2,7 @@
 
 local i
 for i in $(find -name \*.rej);do
-	${EDITOR:-editor} -o $i ${i/%.rej//}
+	${EDITOR:-editor} -o $i ${i/%.rej/}
 	echo -n "delete $i? [y/n] "
 	read -q RM
 	if [ "$RM" = "y" ];then
