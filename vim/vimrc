@@ -77,6 +77,12 @@ map <F1> :<cr>
 imap <F1> X<backspace>
 
 map <F2> :set paste!<cr>:set paste?<cr>
+imap <F2> <esc>:set paste!<cr>:set paste?<cr>i
 map <F3> :set ignorecase!<cr>:set ignorecase?<cr>
 map <F4> :set list!<cr>:set list?<cr>
 map <F5> :set nu!<cr>:set nu?<cr>
+
+" Eine sinnvollere Statusline in jedem Vim einschalten.
+set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%{&ft}]\ [ascii=\%03.3b]\ [hex=\%02.2B]\ [pos=%04l,%04v][%p%%]\ [len=%L]
+set laststatus=2
+

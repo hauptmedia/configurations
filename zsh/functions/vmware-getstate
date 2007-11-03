@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+vmware-cmd -l| while read i; do
+	printf "%-20s" "$(basename $i)"
+	vmware-cmd  $i getstate | cut -f 2 -d =
+done
