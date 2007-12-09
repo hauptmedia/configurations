@@ -164,6 +164,9 @@ function s:Template(argument)
 
 		endif
 
+		" 0r leaves a empty line, delete it.
+		$d
+
 		silent %!~/.vim/do_header %
 	endif
 endfunction
