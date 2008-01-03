@@ -21,7 +21,7 @@ if [ "$prefix" ]; then
 	fi
 
 	# setup the DISPLAY variable, so X11 stuff works in the Apple Terminal too.
-	if ps xa | grep -v grep | grep -q X11; then
+	if [ -z "$DISPLAY" ] && ps xa | grep -v grep | grep -q X11; then
 		export DISPLAY=:0
 	fi
 
