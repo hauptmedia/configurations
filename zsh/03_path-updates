@@ -65,6 +65,9 @@ function zsh_path_update() {
 	zsh_var_prepend path /sbin
 	zsh_var_prepend path /usr/sbin
 
+	# ccache
+	zsh_var_prepend path /usr/lib/ccache
+
 	# expand all stuff from /opt
 	setopt NULL_GLOB
 	for opt in /opt	$HOME/opt

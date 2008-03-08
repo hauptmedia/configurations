@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #
 #  %%FILENAME%% - description
 #
@@ -19,25 +18,18 @@
 #  Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
 #
 
-# define the Package name
 package %%FILE%%;
-
+use warnings;
 use strict;
 
-# constructor
-sub new($) {
-	my $proto = shift();
+sub new {
+	my ($proto, %args) = @_;
 	my $class = ref($proto) || $proto;
-	my $self  = {};
+	my $self = {};
+	# my $self = $class->SUPER::new(%args);
 	bless ($self, $class);
 	return $self;
 }
 
-# destructor
-sub DESTROY() {
-};
-
-# return a true value
 1;
-__END__
-
+# vim:set ft=perl fdm=marker fmr=><!>,<!><:
