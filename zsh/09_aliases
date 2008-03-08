@@ -13,6 +13,7 @@ if [ "$TERM" != "dumb" ] && which dircolors > /dev/null; then
 	fi
 fi
 
-alias psgrep="ps xa | grep"
+alias grep="grep --color=auto"
+alias psgrep="ps xa | grep --color=auto"
 alias sudo="sudo -H"
 alias kernel_finger="wget -qO- http://www.kernel.org/kdist/finger_banner"
