@@ -45,6 +45,8 @@ zstyle ':completion::complete:git:*' verbose false
 
 # No do not complete that aptitude-* stuff directly!
 zstyle ':completion:*:complete:-command-::commands' ignored-patterns 'aptitude-*'
+# Do not complete the _* internal functions used for tab-completion.
+zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:::::' completer _complete _ignored _approximate
 
 #source /etc/environment
