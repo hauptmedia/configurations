@@ -6,10 +6,19 @@ localLaTeX=~/.LaTeX
 if [ -e $localLaTeX ]; then
 	# add the local latex path to TEXINPUTS
 	typeset -T TEXINPUTS texinputs
-	texinputs=(. $texinputs $localLaTeX "")
+	texinputs=(. $localLaTeX $texinputs "")
+	typeset -T BIBINPUTS bibinputs
+	bibinputs=(. $localLaTeX $bibinputs "")
+	typeset -T TEXMFCNF texmfcnf
+	texmfcnf=($localLaTeX $texmfcnf "")
+	typeset -T BSTINPUTS bstinputs
+	bstinputs=($localLaTeX $bstinputs "")
 fi
 
 export TEXINPUTS
+export TEXMFCNF
+export BIBINPUTS
+export BSTINPUTS
 
 # remove the variable again
 unset localLaTeX
