@@ -1,0 +1,19 @@
+#!/bin/zsh
+
+FILE=/tmp/$USER.scssh-agent
+
+if [ -e $FILE ]; then
+	source $FILE
+	if [ -z $SSH_AGENT_PID ] || ! kill -0 $SSH_AGENT_PID; then
+		scssh-agent >$FILE
+		source $FILE
+	fi
+else
+	scssh-agent >$FILE
+	source $FILE
+fi
+
+# nun den Reader 0 hinzufügen, falls noch nicht geschehen.
+if ! ssh-add -l >/dev/null 2>&1; then
+	ssh-add -s 0
+fi
