@@ -65,10 +65,15 @@ case $head in
 		;;
 	*)
 		echo "Current branch: $head"
-		if [ -e .git/remotes/$head ] || git remote | grep -q $head; then
-			echo "Using remote $head."
+		# First, figure out the merge branch, via git config.
+		remote=$(git config --get branch.$head.remote)
+		if [ ! -z "$remote" ]; then
+			echo "Using remote $remote."
+		elif [ -e .git/remotes/$head ] || git remote | grep -q $head; then
+			remote=$head
+			echo "Using remote $remote."
 		else
-			echo "No remote named $head exists, aborting." >&2
+			echo "Could not figure out remote. Aborting." >&2
 			exit 3
 		fi
 
@@ -76,7 +81,7 @@ case $head in
 			git reset --hard
 		fi
 
-		if git pull $head; then
+		if git pull $remote; then
 			make QUIET=1
 		fi
 		;;
