@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+#
+# If running inside a vserver (entered via 'vserver vservername enter')
+# then first cd to the home.
+#
+if [ ! -z $INIT_CWD ]; then
+	cd
+fi
