@@ -1980,7 +1980,7 @@ FUNCTION {calc.label}
     }
   if$
   duplicate$
-  year field.or.null purify$ #-1 #2 substring$
+  year field.or.null purify$ #-1 #4 substring$
   *
   'label :=
   year field.or.null purify$ #-1 #4 substring$
