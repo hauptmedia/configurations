@@ -70,7 +70,7 @@ set term=xterm
 endif
 
 set nolist
-set listchars=tab:»·,trail:·
+set listchars=tab:»·,trail:·,nbsp:~
 
 " Die Hilfe NERVT!
 map <F1> :<cr>
