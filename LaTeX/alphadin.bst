@@ -1340,8 +1340,9 @@ FUNCTION {booklet}
   if$
   set.colon.after
   format.btitle "title" output.check
-  format.edition.or.version output
+  %format.edition.or.version output
   format.url output
+  format.date output
   format.online.lastcheck
   format.howpublished output
   series new.sentence.checka
