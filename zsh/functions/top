@@ -9,7 +9,7 @@ case $OSTYPE in
 		;;
 esac
 
-if [ "$@" ]; then
+if [ $# -ne 0 ]; then
 	command top $@
 else
 	command top $param
