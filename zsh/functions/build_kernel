@@ -1,4 +1,4 @@
-#!/bin/zsh
+##!/bin/zsh
 
 local KERNEL_BASE KERNEL_MODULES KERNEL_CONFIGS KERNEL_MAINTAINER NUM_CPUS MODULE_LOC
 local KERNEL_CONFIG KERNEL_OPTIONS
@@ -85,6 +85,7 @@ local VERSION=$(	grep "^VERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' 
 local PATCHLEVEL=$(	grep "^PATCHLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
 local SUBLEVEL=$(	grep "^SUBLEVEL" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
 local EXTRAVERSION=$(	grep "^EXTRAVERSION" Makefile	| head -n 1 | awk -F "=" '{print $2}' | sed 's/ //g')
+EXTRAVERSION="$EXTRAVERSION$(cat /dev/null $(find . -maxdepth 1 -regex '.*/localversion[^~]*' | sort -u))"
 local KERNEL_VERSION=$VERSION.$PATCHLEVEL.$SUBLEVEL$EXTRAVERSION
 
 # make oldconfig
