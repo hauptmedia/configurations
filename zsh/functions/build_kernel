@@ -53,7 +53,7 @@ if [ -e $MODULE_LOC ]; then
 fi
 
 if [ $NUM_CPUS -gt 1 ]; then
-	(( CONCURRENCY_LEVEL = NUM_CPUS + 3 ))
+	(( CONCURRENCY_LEVEL = NUM_CPUS + 1 ))
 	export CONCURRENCY_LEVEL
 fi
 
