@@ -187,12 +187,12 @@ if [ -z "$DO_NOT_BUILD" ]; then
 
 		case $TERM in
 			xterm*|Eterm|rxvt)
-				echo -ne "\033]0;make-kpkg --rootcmd fakeroot $MAKE_KPKG_OPTS --append_to_version -${host} kernel-image\007"
+				echo -ne "\033]0;make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS --append_to_version -${host} kernel-image\007"
 				;;
 			*)
 				;;
 		esac
-		make-kpkg --rootcmd fakeroot $MAKE_KPKG_OPTS --append_to_version -$host kernel-image
+		make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS --append_to_version -$host kernel-image
 
 		# now generate the changelog
 		echo -n "building changes for $host: "
