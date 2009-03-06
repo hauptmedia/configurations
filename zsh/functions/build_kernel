@@ -187,12 +187,13 @@ if [ -z "$DO_NOT_BUILD" ]; then
 
 		case $TERM in
 			xterm*|Eterm|rxvt)
-				echo -ne "\033]0;make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS --append_to_version -${host} kernel-image\007"
+				echo -ne "\033]0;make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS kernel-image - [host=${host}]\007"
 				;;
 			*)
 				;;
 		esac
-		make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS --append_to_version -$host kernel-image
+		echo "-$host" > localversion-zzz-build-kernel
+		make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS kernel-image
 
 		# now generate the changelog
 		echo -n "building changes for $host: "
@@ -207,12 +208,12 @@ if [ -z "$DO_NOT_BUILD" ]; then
 		debsign $CHANGESFILE
 
 		if [ -d $KERNEL_MODULES/$host ]; then
-			MODULE_LOC=$MODULE_LOC fakeroot make-kpkg --append_to_version -$host \
-				modules
+			MODULE_LOC=$MODULE_LOC fakeroot make-kpkg modules
 		fi
 
 		rm -rf $MODULE_LOC
 
+		rm -f localversion-zzz-build-kernel
 		make mrproper
 		[ -e debian/rules ] && fakeroot debian/rules clean
 		[ -e conf.vars ] && rm -f conf.vars
