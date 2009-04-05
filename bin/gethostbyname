@@ -1,0 +1,53 @@
+#!/usr/bin/env perl
+#
+#  gethostbyname - small perl wrapper for gethostbyname
+#
+#  Copyright (C) 2009 
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2, or (at your option)
+#  any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software Foundation,
+#  Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+#
+
+use warnings;
+use strict;
+use Getopt::Long;
+use Socket;
+
+sub printexit {
+	print STDERR @_;
+	exit 1;
+}
+
+my $records;
+
+my $result = GetOptions(
+	'r|records=s' => \$records
+);
+
+my $hostname = shift;
+
+if (not $result or not defined $hostname) {
+	$0 =~ s/^.*\///;
+	print "Usage: $0 [--records=n] hostname\n";
+	exit 0;
+}
+
+my ($name,$aliases,$addrtype,$length,@addrs) = gethostbyname $hostname or printexit "Host not found.\n";
+
+my $number = (defined $records) ? ($records>@addrs ? @addrs : $records) : @addrs;
+foreach (my $i=0; $i<$number; $i++) {
+	print inet_ntoa($addrs[$i]), "\n";
+}
+
+# vim:set ft=perl fdm=marker fmr=><!>,<!><:
