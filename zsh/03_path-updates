@@ -80,6 +80,10 @@ function zsh_path_update() {
 					$dir/lib/perl5/darwin
 			fi
 		done
+	for dir in /Network/Library/Perl /Library/Perl /System/Library/Perl
+		if [ -d $dir ]; then
+				zsh_var_append perl5lib $dir
+		fi
 	unsetopt NULL_GLOB
 
 	for dir in /sw /usr/pkg /usr/local; do
