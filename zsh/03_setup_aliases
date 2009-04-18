@@ -30,3 +30,7 @@ which gnuindent		>/dev/null && alias indent=gnuindent
 if [ $(uname) = "Darwin" ] && [ $TERM = "xterm" ]; then
 	which mc	>/dev/null && alias mc="TERM=xterm-color mc"
 fi
+
+# Make sure getent works as usual on Mac OS X (portable perl version of getent.)
+unfunction getent >/dev/null 2>&1
+which getent		>/dev/null || alias getent=portable-getent

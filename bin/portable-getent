@@ -1,0 +1,144 @@
+#!/usr/bin/perl -w
+
+# getent.pl 0.1
+# Perl replacement for the getent binary commonly distributed with glibc
+#
+# Written by Jason Englander <jason@englanders.cc>
+# Dec 19, 2002
+#
+# Licence: GPL.  For more information see
+# http://www.gnu.org/licenses/gpl.txt
+
+use strict;
+use Socket;
+
+my $what = shift;
+my $who  = shift;
+
+&usage() if ! $what;
+
+my $count=0;
+
+sub _getpwent {
+	$count++;
+	if (defined $who) {
+		return if ($count >1);
+
+		if ($who =~ /^\d+$/) {
+			return getpwuid($who);
+		} else {
+			return getpwnam($who);
+		}
+	} else {
+		return getpwent();
+	}
+}
+
+sub _getgrent {
+	$count++;
+	if (defined $who) {
+		return if ($count >1);
+
+		if ($who =~ /^\d+$/) {
+			return getgrgid($who);
+		} else {
+			return getgrnam($who);
+		}
+	} else {
+		return getgrent();
+	}
+}
+
+sub _gethostent {
+	$count++;
+	if (defined $who) {
+		return if ($count >1);
+
+		if ($who =~ /^[0-9.:]+$/) {
+			my $iaddr = inet_aton($who);
+			return gethostbyaddr($iaddr, AF_INET);
+		} else {
+			return gethostbyname($who);
+		}
+	} else {
+		return gethostent();
+	}
+}
+
+sub _getprotoent {
+	$count++;
+	if (defined $who) {
+		return if ($count >1);
+
+		if ($who =~ /^\d+$/) {
+			return getprotobynumber($who);
+		} else {
+			return getprotobyname($who);
+		}
+	} else {
+		return getprotoent();
+	}
+}
+
+sub _getservent {
+	$count++;
+	if (defined $who) {
+		return if ($count >1);
+
+		if ($who =~ /^\d+$/) {
+			no warnings;
+			return getservbyport($who, undef);
+		} else {
+			no warnings;
+			return getservbyname($who, undef);
+		}
+	} else {
+		return getservent();
+	}
+}
+
+if ($what eq "passwd") {
+  while (my @r = _getpwent()) {
+    # $name,$passwd,$uid,$gid,$quota,$comment,$gcos,$dir,$shell,$expire
+    print "$r[0]:$r[1]:$r[2]:$r[3]:$r[6]:$r[7]:$r[8]\n";
+  }
+}
+elsif ($what eq "group") {
+  while (my @r = _getgrent()) {
+    # $name,$passwd,$gid,$members
+    my $members = $r[3];
+    $members =~ s/ /,/g;
+    print "$r[0]:$r[1]:$r[2]:$members\n";
+  }
+}
+elsif ($what eq "hosts") {
+  while (my @r = _gethostent()) {
+    # $name,$aliases,$addrtype,$length,@addrs
+    my ($a,$b,$c,$d) = unpack('C4', $r[4]);
+    print "$a.$b.$c.$d\t$r[0] $r[1]\n";
+  }
+}
+elsif ($what eq "networks") {
+  while (my @r = getnetent()) {
+    # $name,$aliases,$addrtype,$net
+    my ($a,$b,$c,$d) = unpack("C4", pack("N", $r[3]));
+    printf "%-21s %d.%d.%d.%d\n", $r[0], $a, $b, $c, $d;
+  }
+}
+elsif ($what eq "protocols") {
+  while (my @r = _getprotoent()) {
+    # $name,$aliases,$proto
+    printf "%-21s %s %s\n", $r[0], $r[2], $r[1];
+  }
+}
+elsif ($what eq "services") {
+  while (my @r = _getservent()) {
+    # $name,$aliases,$port,$proto
+    printf "%-21s %d/%s %s\n", $r[0], $r[2], $r[3], $r[1];
+  }
+}
+else { &usage(); }
+
+sub usage () {
+  die "\nUsage: $0 passwd|group|hosts|networks|protocols|services\n\n";
+}
