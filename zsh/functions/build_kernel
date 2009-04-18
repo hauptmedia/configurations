@@ -193,7 +193,9 @@ if [ -z "$DO_NOT_BUILD" ]; then
 				;;
 		esac
 		echo "-$host" > localversion-zzz-build-kernel
+		export INITRD=YES
 		make-kpkg --rootcmd fakeroot --initrd $MAKE_KPKG_OPTS kernel-image
+		unset INITRD
 
 		# now generate the changelog
 		echo -n "building changes for $host: "
@@ -229,11 +231,17 @@ if [ -z "$DO_NOT_BUILD" ]; then
 	#
 	# Some "modules" packages tend to mixup (wrongly) the Maintainer and Changed By fields.
 	# So the .changes files can't be signed :(
-	for i in $(grep Changed-By ../*.changes|grep -v $EMAIL|awk -F: '{print $1}'); do
-		sed -i 's/Changed-By/M_aintainer/' $i
-		sed -i 's/Maintainer/Changed-By/' $i
-		sed -i 's/M_aintainer/Maintainer/' $i
-		debsign $i
+	for i in ../*.changes; do
+		if ! grep -q PGP $i; then
+			if ! grep Changed-By $i|grep -q $EMAIL; then
+				echo "Replacing maintainer in $i."
+				sed -i 's/Changed-By/M_aintainer/' $i
+				sed -i 's/Maintainer/Changed-By/' $i
+				sed -i 's/M_aintainer/Maintainer/' $i
+			fi
+			echo "Signing $i."
+			debsign $i
+		fi
 	done
 else
 	make mrproper
