@@ -82,7 +82,7 @@ install_func() {
 for object in .* *; do
 	case $object in
 		# To ignore
-		.git|.gitignore|Makefile|_internal_|*.swp)
+		.git|.gitignore|makefile|GNUmakefile|_internal_|*.swp)
 			if [ "$V" ]; then
 				echo "ignoring $object" >&2
 			fi
