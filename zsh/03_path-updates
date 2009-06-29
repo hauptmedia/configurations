@@ -80,6 +80,9 @@ function zsh_path_update() {
 					$dir/lib/perl5/darwin
 			fi
 		done
+	# Some fixes for newer Perl under MacPorts.
+	zsh_var_append perl5lib /Network/Library/Perl /Library/Perl /System/Library/Perl/Extras \
+		/System/Library/Perl
 	unsetopt NULL_GLOB
 
 	for dir in /sw /usr/pkg /usr/local; do

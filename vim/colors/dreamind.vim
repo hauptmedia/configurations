@@ -25,6 +25,9 @@ hi Ignore				ctermfg=black		guifg=bg
 hi Error	term=reverse ctermbg=Red ctermfg=White guibg=Red guifg=White
 hi Todo	term=standout ctermbg=Yellow ctermfg=Black guifg=White guibg=Yellow
 
+hi Folded	guifg=#808080 guibg=#000040			ctermfg=Cyan ctermbg=black cterm=bold term=bold
+hi FoldColumn	guifg=#808080 guibg=#000040			ctermfg=Cyan ctermbg=black cterm=bold term=bold
+
 " Common groups that link to default highlighting.
 " You can specify other highlighting easily.
 hi link String	Constant
