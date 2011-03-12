@@ -6,14 +6,14 @@ local prefix
 case $OSTYPE in
 	darwin*)
 		for prefix in /sw /opt/DarwinPorts /opt/local
-			test -d $prefix ] && break
+			test -d $prefix && break
 		;;
 esac
 
 if [ "$prefix" ]; then
 
 	# update the java classpath
-	if [ -r cat $prefix/share/java/classpath ]; then
+	if [ -r $prefix/share/java/classpath ]; then
 		export CLASSPATH
 		typeset -U classpath
 		typeset -T CLASSPATH classpath
