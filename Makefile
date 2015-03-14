@@ -1,5 +1,5 @@
 install:
-	cp -r .vimrc .vim/ $(HOME)
+	cp -r .vimrc .vim/ .screenrc $(HOME)
 
 .PHONY: install
 
