@@ -1,13 +1,6 @@
 #!/usr/bin/env zsh
 
-if which getent > /dev/null; then
-	REALNAME=$(getent passwd $USER|awk -F : '{print $5}' | awk -F , '{print $1}')
-else
-	REALNAME=$(grep $USER /etc/passwd|awk -F : '{print $5}' | awk -F , '{print $1}')
-	if which nidump > /dev/null && [ -z "$REALNAME" ]; then
-		REALNAME=$(nidump passwd / | grep $USER|awk -F : '{print $8}')
-	fi
-fi
+REALNAME=$(~/bin/portable-getent passwd $USER|awk -F : '{print $5}' | awk -F , '{print $1}')
 DATE=$(date)
 YEAR=$(date +%Y)
 FILENAME=$(echo $1 | sed 's/[^/]*\///')
