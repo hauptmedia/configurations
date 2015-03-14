@@ -1,0 +1,17 @@
+#!/bin/zsh
+# emacs mode!
+setopt emacs
+bindkey -s '^X^M' 'mutt\n'
+case $OSTYPE in
+	linux*)
+		if [ $UID = 0 ]; then
+			bindkey -s '^X^A' 'aptitude\n'
+		else
+			bindkey -s '^X^A' 'sudo aptitude\n'
+		fi
+		;;
+	darwin*)
+		bindkey -s '^X^A' 'sudo port selfupdate && port outdated\n'
+		;;
+esac
+bindkey -s '^A^R' 'screen -r\n'

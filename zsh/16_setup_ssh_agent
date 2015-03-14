@@ -1,7 +1,0 @@
-SSHPID=`pidof -s ssh-agent`
-if [ -z "$SSHPID" ]; then
-    ssh-agent > ~/.ssh-env
-    source ~/.ssh-env
-else
-    source ~/.ssh-env
-fi

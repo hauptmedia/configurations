@@ -1,0 +1,10 @@
+PID=`pidof -s ssh-agent`
+SSH_AGENT_ENV_FILE=$HOME/.ssh-agent-$PID-env
+
+if [ -z "$PID" ]; then
+    ssh-agent > $SSH_AGENT_ENV_FILE
+fi
+
+if [ -f $SSH_AGENT_ENV_FILE ]; then
+    source $SSH_AGENT_ENV_FILE 
+fi
